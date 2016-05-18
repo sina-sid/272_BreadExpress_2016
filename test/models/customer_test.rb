@@ -16,7 +16,7 @@ class CustomerTest < ActiveSupport::TestCase
   should allow_value("412-268-3259").for(:phone)
   should allow_value("412.268.3259").for(:phone)
   should allow_value("(412) 268-3259").for(:phone)
-  should allow_value(nil).for(:phone)
+  should_not allow_value(nil).for(:phone)
   should_not allow_value("2683259").for(:phone)
   should_not allow_value("14122683259").for(:phone)
   should_not allow_value("4122683259x224").for(:phone)
@@ -39,18 +39,10 @@ class CustomerTest < ActiveSupport::TestCase
 
   context "Creating a context for customers" do
     setup do 
-      # create_customers
-      @abc = FactoryGirl.create(:customer)
-      @cindy = FactoryGirl.create(:customer, first_name: "Cindy", last_name: "Crawford", email: "cindy_c@example.com", phone: "412-123-4567")
-      @bob = FactoryGirl.create(:customer, first_name: "Bob", last_name: "By", email: "bobby@example.com", active: false)
-      @rob = FactoryGirl.create(:customer, first_name: "Rob", last_name: "Bery", email: "robbery@example.com", active: false)
+      create_customers
     end
     teardown do
-      # remove_customers
-      @abc.delete
-      @cindy.delete
-      @bob.delete
-      @rob.delete
+      remove_customers
     end
 
     should "show there are two active customers" do
@@ -74,4 +66,5 @@ class CustomerTest < ActiveSupport::TestCase
     should "display the customer's name in first name last name format" do
       assert_equal "Cindy Crawford", @cindy.proper_name
     end
+  end
 end

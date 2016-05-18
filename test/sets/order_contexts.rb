@@ -4,8 +4,8 @@ module Contexts
   	def create_orders
   	  @abc_order1 = FactoryGirl.create(:order, customer: @abc, address: @abc_address)
   	  @abc_order2 = FactoryGirl.create(:order, customer: @abc, address: @abc_address)
-  	  @cindy_order1 = FactoryGirl.create(:order, customer: @cindy, address: @cndy_nb_address)
-  	  @cindy_order2 = FactoryGirl.create(:order, customer: @cindy, address: @cndy_inactive_address)
+  	  @cindy_order1 = FactoryGirl.create(:order, customer: @cindy, address: @cindy_nb_address)
+  	  # @cindy_order2 = FactoryGirl.create(:order, customer: @cindy, address: @cindy_inactive_address)
   	  @bob_order1 = FactoryGirl.create(:order, customer: @bob, address: @bob_address)
   	end
 

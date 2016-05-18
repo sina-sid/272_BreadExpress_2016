@@ -7,6 +7,8 @@ module Contexts
       @cindy_inactive_address = FactoryGirl.create(:adress, customer: @cindy, active: false)
       @bob_address = FactoryGirl.create(:address, customer: @bob)
       @rob_address = FactoryGirl.create(:address, customer: @rob)
+      # cannot create add for inactive
+      # change bob, rob to inactive later
       # @rob = FactoryGirl.create(:customer, first_name: "Rob", last_name: "Bery", email: "robbery@example.com", active: false)
   	end
 
