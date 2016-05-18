@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer_id: 1
+  address_id: 1
+  date: 2016-05-18
+  grand_total: 1.5
+  payment_receipt: MyString
+
+two:
+  customer_id: 1
+  address_id: 1
+  date: 2016-05-18
+  grand_total: 1.5
+  payment_receipt: MyString

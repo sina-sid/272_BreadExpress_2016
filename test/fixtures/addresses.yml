@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer_id: 1
+  is_billing: false
+  recipient: MyString
+  street_1: MyString
+  street_2: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  active: false
+
+two:
+  customer_id: 1
+  is_billing: false
+  recipient: MyString
+  street_1: MyString
+  street_2: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  active: false
