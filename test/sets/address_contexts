@@ -2,8 +2,8 @@ module Contexts
   module AddressContexts
 
   	def create_addresses
-  	  @abc_address = FactoryGirl.create(:address, customer:@abc)
-      # @cindy = FactoryGirl.create(:customer, first_name: "Cindy", last_name: "Crawford", email: "cindy_c@example.com", phone: "412-123-4567")
+  	  @abc_address = FactoryGirl.create(:address, customer: @abc)
+      # @cindy_address = FactoryGirl.create(:adress, customer: @cindy, )
       # @bob = FactoryGirl.create(:customer, first_name: "Bob", last_name: "By", email: "bobby@example.com", active: false)
       # @rob = FactoryGirl.create(:customer, first_name: "Rob", last_name: "Bery", email: "robbery@example.com", active: false)
   	end

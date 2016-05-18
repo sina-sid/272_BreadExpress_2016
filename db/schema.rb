@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 20160518143919) do
     t.string  "last_name"
     t.string  "email"
     t.string  "phone"
-    t.integer "user_id"
     t.boolean "active",     default: true
   end
 

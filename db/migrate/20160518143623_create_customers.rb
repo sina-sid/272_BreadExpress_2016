@@ -5,7 +5,7 @@ class CreateCustomers < ActiveRecord::Migration
       t.string :last_name
       t.string :email
       t.string :phone
-      t.integer :user_id
+      # t.integer :user_id
       t.boolean :active, default: true
 
       # t.timestamps null: false
