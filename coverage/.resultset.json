@@ -316,11 +316,18 @@
         0,
         0,
         0,
+        null,
+        null,
         0,
         0,
-        null,
-        null,
-        null,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         null,
         null,
         1,
@@ -416,19 +423,19 @@
         null,
         null
       ],
-      "/home/mogh/Documents/BreadExpress/BreadExpress/app/models/order.rb": [
+      "/home/mogh/Documents/BreadExpress/BreadExpress/app/models/address.rb": [
         1,
         1,
         1,
         null
       ],
-      "/home/mogh/Documents/BreadExpress/BreadExpress/app/models/address.rb": [
+      "/home/mogh/Documents/BreadExpress/BreadExpress/app/models/order.rb": [
         1,
         1,
         1,
         null
       ]
     },
-    "timestamp": 1463620074
+    "timestamp": 1463629268
   }
 }

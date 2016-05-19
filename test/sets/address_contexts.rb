@@ -3,19 +3,26 @@ module Contexts
 
   	def create_addresses
   	  @abc_address = FactoryGirl.create(:address, customer: @abc)
-      @cindy_nb_address = FactoryGirl.create(:adress, customer: @cindy, is_billing: false)
-      @cindy_inactive_address = FactoryGirl.create(:adress, customer: @cindy, active: false)
-      @bob_address = FactoryGirl.create(:address, customer: @bob)
-      @rob_address = FactoryGirl.create(:address, customer: @rob)
-      # cannot create add for inactive
-      # change bob, rob to inactive later
-      # @rob = FactoryGirl.create(:customer, first_name: "Rob", last_name: "Bery", email: "robbery@example.com", active: false)
+      @cindy_address = FactoryGirl.create(:address, customer: @cindy, recipient: "Dad", street_1: "5000 Fifth Avenue")
+      @cindy_nb_address = FactoryGirl.create(:address, customer: @cindy, recipient: "Cindy", is_billing: false, street_1: "2000 Forbes Avenue", zip:"15203")
+      # @cindy_inactive_address = FactoryGirl.create(:address, customer: @cindy, active: false)
+      # run this ^ in FG.build
+      @bob.active = true
+      @bob.save!
+      @bob_address = FactoryGirl.create(:address, customer: @bob, recipient: "Bob", street_1: "5000 Not CMU", zip:"12345")
+      @bob.active = false
+      @bob.save!
+      @rob.active = true
+      @rob.save!
+      @rob_address = FactoryGirl.create(:address, recipient: "Home", customer: @rob, street_1: "12345 Ave")
+      @rob.active = false
+      @rob.save!
   	end
 
   	def remove_addresses
   	  @abc_address.delete
       @cindy_nb_address
-      @cindy_inactive_address
+      @cindy_address
       @bob_address.delete
       @rob_address.delete
   	end
