@@ -59,6 +59,10 @@ class CustomerTest < ActiveSupport::TestCase
       assert_equal ["Bery", "By", "Crawford", "Def"], Customer.alphabetical.map{|e| e.last_name}
     end
 
+    should "show that phone number was saved in the correct format" do
+      assert_equal "4121234567", @cindy.phone
+    end
+
     should "display the customer's name in last name, first name format" do
       assert_equal "Crawford, Cindy", @cindy.name
     end
