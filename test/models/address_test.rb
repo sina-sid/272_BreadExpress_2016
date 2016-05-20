@@ -62,7 +62,7 @@ class AddressTest < ActiveSupport::TestCase
     end
 
     should "order addresses by customer name" do
-      assert_equal ["Bery", "By", "Crawford", "Crawford", "Def"], Address.by_customer.map{|a| a.by_customer}
+      assert_equal ["Bery", "By", "Crawford", "Crawford", "Def"], Address.by_customer.map{|a| a.customer.last_name}
     end
 
     should "show that there are x shipping addresses" do

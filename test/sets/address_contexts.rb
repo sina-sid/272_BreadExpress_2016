@@ -5,8 +5,6 @@ module Contexts
   	  @abc_address = FactoryGirl.create(:address, customer: @abc)
       @cindy_address = FactoryGirl.create(:address, customer: @cindy, recipient: "Dad", street_1: "5000 Fifth Avenue")
       @cindy_nb_address = FactoryGirl.create(:address, customer: @cindy, recipient: "Cindy", is_billing: false, street_1: "2000 Forbes Avenue", zip:"15203")
-      # @cindy_inactive_address = FactoryGirl.create(:address, customer: @cindy, active: false)
-      # run this ^ in FG.build
       @bob.active = true
       @bob.save!
       @bob_address = FactoryGirl.create(:address, customer: @bob, recipient: "Bob", street_1: "5000 Not CMU", zip:"12345")
