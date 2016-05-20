@@ -47,14 +47,14 @@ class AddressTest < ActiveSupport::TestCase
       deny @bad_customer_address.valid?
     end
 
-    should "show there are two active addresses" do
-      # assert_equal 2, Customer.active.size
-      # assert_equal ["Crawford", "Def"], Customer.active.map{|e| e.last_name}.sort
+    should "show there are three active addresses" do
+      assert_equal 3, Address.active.size
+      assert_equal ["Crawford", "Crawford", "Def"], Address.active.map{|a| a.customer.last_name}.sort
     end
 
     should "show there are two inactive addresses" do
-      # assert_equal 2, Customer.active.size
-      # assert_equal ["Crawford", "Def"], Customer.active.map{|e| e.last_name}.sort
+      assert_equal 2, Address.active.size
+      assert_equal ["Bery", "By"], Address.active.map{|a| a.customer.last_name}.sort
     end
 
     should "order addresses by recipient name" do

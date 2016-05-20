@@ -26,6 +26,8 @@ class Address < ActiveRecord::Base
 
   private
   def is_duplicate?
+  	recipient = self.recipient
+  	street = self.street_1
   	# true if (self.recipient)
   end
 
