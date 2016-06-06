@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  category: MyString
+  picture: MyString
+  units_per_item: 1
+  weight: 1.5
+  active: false
+
+two:
+  name: MyString
+  description: MyText
+  category: MyString
+  picture: MyString
+  units_per_item: 1
+  weight: 1.5
+  active: false

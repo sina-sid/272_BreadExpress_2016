@@ -4,6 +4,7 @@ class Order < ActiveRecord::Base
   # Relationships
   belongs_to :customer
   belongs_to :address
+  has_many :order_items
 
   # Scopes
   scope :chronological, -> { order(date: :desc) }

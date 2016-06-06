@@ -27,4 +27,34 @@ FactoryGirl.define do
     payment_receipt nil
   end
 
+  factory :item do
+    name "Honey Wheat Bread"
+    description "Best. Bread. Ever."
+    category "bread"
+    picture "home-1.jpg"
+    units_per_item 12
+    weight 1.1
+    active true
+  end
+
+  factory item_prices do
+    association :item
+    price 8.50
+    start_date Date.today
+    end_date nil
+  end
+
+  factory order_items do
+    association :order
+    association :item
+    quantity 1
+    shipped_on Date.today
+  end
+
+  factory user do
+    username "example"
+    role "admin"
+    active true
+  end
+
 end

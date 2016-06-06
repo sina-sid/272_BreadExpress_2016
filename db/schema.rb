@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141223145336) do
+ActiveRecord::Schema.define(version: 20160606165923) do
 
-  create_table "addresses", force: true do |t|
+  create_table "addresses", force: :cascade do |t|
     t.integer  "customer_id"
     t.boolean  "is_billing",  default: false
     t.string   "recipient"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20141223145336) do
     t.datetime "updated_at"
   end
 
-  create_table "customers", force: true do |t|
+  create_table "customers", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
@@ -37,12 +37,50 @@ ActiveRecord::Schema.define(version: 20141223145336) do
     t.datetime "updated_at"
   end
 
-  create_table "orders", force: true do |t|
+  create_table "item_prices", force: :cascade do |t|
+    t.integer  "item_id"
+    t.float    "price"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "category"
+    t.string   "picture"
+    t.integer  "units_per_item"
+    t.float    "weight"
+    t.boolean  "active",         default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer  "order_id"
+    t.integer  "item_id"
+    t.integer  "quantity"
+    t.date     "shipped_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "orders", force: :cascade do |t|
     t.date     "date"
     t.integer  "customer_id"
     t.integer  "address_id"
     t.float    "grand_total"
     t.string   "payment_receipt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "username"
+    t.string   "role"
+    t.boolean  "active",     default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

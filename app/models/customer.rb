@@ -3,6 +3,7 @@ class Customer < ActiveRecord::Base
   # Relationships
   has_many :orders
   has_many :addresses
+  belongs_to :user # not sure about this
 
   # Scopes
   scope :alphabetical,  -> { order(:last_name).order(:first_name) }
