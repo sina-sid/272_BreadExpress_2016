@@ -1,0 +1,17 @@
+<% if @inactive_addresses.empty? %>
+  <p><em>There are no inactive addresses at this time.</em></p>
+<% else %>
+  <div class="panel callout radius">
+    <h3>Inactive Addresses</h3>
+    <ul>
+      <% @inactive_addresses.each do |address| %>
+        <li><%= link_to address.customer.proper_name, address_path(address) %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div>
+  <%= link_to(new_address_path, class: "waves-effect waves-light btn red") do %>
+    &nbsp;Add New Address
+  <% end %>
+</div>

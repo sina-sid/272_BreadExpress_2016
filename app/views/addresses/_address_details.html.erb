@@ -1,0 +1,11 @@
+<h3>Address Details</h3>
+
+  <b>Customer Name:</b> <%= @address.customer.proper_name %><br>
+
+  <b>Recipient:</b> <%= @address.recipient %><br>
+
+  <b>Address:</b> <%= @full_address %><br>
+
+  <b>Billing?:</b> <%= @address.is_billing.humanize %><br>
+
+  <b>Active:</b> <%= @address.active.humanize %>

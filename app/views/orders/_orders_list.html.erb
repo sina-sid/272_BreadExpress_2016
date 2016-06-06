@@ -1,0 +1,32 @@
+<% if @all_orders.empty? %>
+  <p><em>There are no orders at this time</em></p>
+<% else %>
+  <h3>All Orders</h3>
+  <table class="table table-striped highlight bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Recipient</th>
+        <th>Cost</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @all_orders.each do |order| %>
+        <tr>
+          <td><%= link_to humanize_date(order.date), order_path(order) %></td>
+          <td><%= link_to order.customer.name, customer_path(order.customer) %></td>
+          <td><%= order.address.recipient %></td>
+          <td><%= "$#{order.grand_total}" %></td>
+          <td>
+            <%= link_to(edit_order_path(order), class: 'button tiny radius warning') do %>
+              &nbsp;Edit&nbsp;
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @all_orders, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+<% end %>

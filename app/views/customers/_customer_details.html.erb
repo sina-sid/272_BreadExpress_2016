@@ -1,0 +1,12 @@
+<h3>Customer Details</h3>
+  <h5>
+    <%= "A Bread Express customer since #{@year_joined}" %>
+  </h5>
+
+  <b>Name:</b> <%= @customer.proper_name %><br>
+
+  <b>Phone:</b> <%= number_to_phone @customer.phone %><br>
+
+  <b>Email:</b> <%= @customer.email %><br>
+
+  <b>Active:</b> <%= @customer.active ? "Yes" : "No" %>

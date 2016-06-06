@@ -1,0 +1,14 @@
+<!-- DEFINING VARIABLES TO BE USED IN NAVBAR -->
+
+<nav>
+  <div class="container">
+    <div class="nav-wrapper">
+      <a class="brand-logo"><%= link_to "BreadExpress", home_path %></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><%= link_to "Customers", customers_path %></li>
+        <li><%= link_to "Addresses", addresses_path %></li>
+        <li><%= link_to "Orders", orders_path %></li>
+      </ul>
+    </div>
+  </div>
+</nav>

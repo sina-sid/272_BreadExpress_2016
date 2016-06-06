@@ -1,0 +1,22 @@
+<% if @customer_orders.empty? %>
+  <p><em><%= "#{@order.customer.proper_name} has not placed any orders yet" %></em></p>
+<% else %>
+  <h3>Order History</h3>
+  <table class="table table-striped highlight bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customer_orders.each do |order| %>
+        <tr>
+          <td><%= link_to humanize_date(order.date), order_path(order) %></td> <!-- order.date.strftime("%m/%d/%Y") -->
+          <td><%= "$#{order.grand_total}" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @customer_orders, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+<% end %>

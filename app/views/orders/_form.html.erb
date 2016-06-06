@@ -1,0 +1,14 @@
+<%= simple_form_for @order, html: { class: 'form-horizontal' } do |f| %>
+  <fieldset>
+    <h4><%= controller.action_name.capitalize %> Order</h4>
+
+    <%= f.input :customer_id, collection: Customer.active.alphabetical, include_blank: true, input_html: {class: "avg"} %>
+    <%= f.input :address_id, collection: Order.for_customer(@order.customer_id), include_blank: true, input_html: {class: "avg"} %>
+    <%= f.input :grand_total, input_html: {class: "avg"} %>
+
+    <div><br>
+      <%= f.submit nil, :class => 'waves-effect waves-light btn' %>
+      <%= link_to 'Cancel', orders_path, :class => 'waves-effect waves-light btn red' %>
+    </div>
+  </fieldset>
+<% end %>

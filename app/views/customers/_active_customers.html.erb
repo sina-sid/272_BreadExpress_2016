@@ -1,0 +1,30 @@
+<% if @active_customers.empty? %>
+  <p><em>No active customers at this time.</em></p>
+<% else %>
+  <h3>Active Customers</h3>
+  <table class="table table-striped highlight bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @active_customers.each do |customer| %>
+        <tr>
+          <td><%= link_to customer.name, customer_path(customer) %></td>
+          <td><%= customer.email %></td>
+          <td><%= number_to_phone customer.phone %></td>
+          <td>
+            <%= link_to(edit_customer_path(customer), class: 'button tiny radius warning') do %>
+              &nbsp;Edit&nbsp;
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @active_customers, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+<% end %>
