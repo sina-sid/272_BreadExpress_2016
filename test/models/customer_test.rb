@@ -4,6 +4,7 @@ class CustomerTest < ActiveSupport::TestCase
   # test relationships
   should have_many(:orders)
   should have_many(:addresses)
+  should belong_to(:user)
 
   # test simple validations
   should validate_presence_of(:first_name)
@@ -35,10 +36,12 @@ class CustomerTest < ActiveSupport::TestCase
   # rest with contexts
   context "Within context" do
     setup do 
+      create_customer_users
       create_customers
     end
     
     teardown do
+      destroy_customer_users
       destroy_customers
     end
 
@@ -58,6 +61,26 @@ class CustomerTest < ActiveSupport::TestCase
 
     should "strip non-digits from the phone number" do
       assert_equal "4122682323", @anthony.phone
+    end
+
+    should "show that customers cannot be destroyed" do
+      @alexe.destroy
+      assert @alexe.valid?
+    end
+
+    should "set user inactive if customer is inactive" do
+      @alexe.active = false
+      deny @alexe_user.active
+    end
+
+    should "create a user with appropriate details when customer is created" do 
+      @new_customer = FactoryGirl.create(customer, first_name: "New", last_name: "Customer", phone: "412-268-8211", email: "new@example.com")
+      @new_customer_user = @new_customer.user
+      assert @new_customer_user.valid?
+      assert_equal @new_customer_user.role, "customer"
+      assert @new_customer_user.active
+      @new_customer_user.delete
+      @new_customer.delete
     end
   end
 end

@@ -7,6 +7,8 @@ class Customer < ActiveRecord::Base
 
   # Callbacks
   before_destroy :is_destroyable?
+  before_save :make_user_inactive
+  before_create :create_user
 
   # Scopes
   scope :alphabetical,  -> { order(:last_name).order(:first_name) }
@@ -38,6 +40,18 @@ class Customer < ActiveRecord::Base
 
   def is_destroyable?
     @destroyable = false
+  end
+
+  def make_user_inactive
+    self.user.active = false if self.active == false
+    self.user.save!
+  end
+
+  def create_user
+    self.user = User.new if self.user.nil?
+    self.user.role = "customer"
+    self.user.active = self.active
+    self.user.save!
   end
 
 end
