@@ -71,6 +71,14 @@ class AddressTest < ActiveSupport::TestCase
       @alexe_a1.street_1 = "5005 Forbes Avenue"
       assert @alexe_a1.valid?
     end
+
+    should "set appropriate addresses to inactive once destroyed" do
+      create_orders
+      @alexe_a2.destroy
+      assert @alexe_a2.valid?
+      deny @alexe_a2.active
+      destroy_orders
+    end
     
   end
 end

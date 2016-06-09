@@ -7,6 +7,10 @@ class Address < ActiveRecord::Base
   has_many :orders
   belongs_to :customer
 
+  # Callbacks
+  before_destroy :is_destroyable?
+  after_rollback :convert_to_inactive
+
   # Scopes
   scope :by_recipient,  -> { order(:recipient) }
   scope :by_customer,   -> { joins(:customer).order('customers.last_name').order('customers.first_name') }
@@ -28,6 +32,19 @@ class Address < ActiveRecord::Base
 
   # Other methods
   private
+  def is_destroyable?
+    @destroyable = self.orders.empty?
+  end
+  
+  def convert_to_inactive
+    make_inactive if !@destroyable.nil? && @destroyable == false
+    @destroyable = nil
+  end
+
+  def make_inactive
+    self.update_attribute(:active, false)
+  end
+
   def customer_is_active_in_system
     all_customer_ids = Customer.active.map(&:id)
     unless all_customer_ids.include?(self.customer_id)

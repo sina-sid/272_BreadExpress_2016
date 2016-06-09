@@ -3,7 +3,10 @@ class Customer < ActiveRecord::Base
   # Relationships
   has_many :orders
   has_many :addresses
-  belongs_to :user # not sure about this
+  belongs_to :user
+
+  # Callbacks
+  before_destroy :is_destroyable?
 
   # Scopes
   scope :alphabetical,  -> { order(:last_name).order(:first_name) }
@@ -31,6 +34,10 @@ class Customer < ActiveRecord::Base
   private
   def reformat_phone
     self.phone = self.phone.to_s.gsub(/[^0-9]/,"")
+  end
+
+  def is_destroyable?
+    @destroyable = false
   end
 
 end
