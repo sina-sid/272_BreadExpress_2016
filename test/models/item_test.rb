@@ -49,12 +49,14 @@ class ItemTest < ActiveSupport::TestCase
 
   	should "return a previous price for an item" do
       create_muffin_prices
-      assert_equal 7.99, @choc_muffins.price_on_date(2.years.ago) # check syntax
+      assert_equal 7.99, @choc_muffins.price_on_date(2.years.ago.to_date)
       destroy_muffin_prices
   	end
 
   	should "show that items that have been previously shipped cannot be destroyed" do
-  	  
+      create_order_items
+
+  	  destroy_order_items
   	end
 
     should "show that items not shipped can be destroyed" do
@@ -64,7 +66,7 @@ class ItemTest < ActiveSupport::TestCase
     should "show that a destroyed item is not part of unshipped, unpaid orders" do
     end
 
-    should "make an inproperly destroyed item inactive" do
+    should "make an improperly destroyed item inactive" do
     end
 
   end

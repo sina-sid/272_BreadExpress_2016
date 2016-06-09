@@ -62,21 +62,6 @@ class CCType
   def match(number)
   	@pattern.match(number.to_s)
   end
-
-  # def name
-  # 	if /((34|37)[\d]{13})/.match(@number.to_s)
-  # 	  @name = "AMEX"
-  # 	elsif /([300-305][\d]{11})/.match(@number.to_s)
-  # 	  @name =  "DCCB"
-  # 	elsif /((6011)[\d]{12}) | ((65)[\d]{14})/.match(@number.to_s)
-  # 	  @name =  "DISC"
-  # 	elsif /([51-55][\d]{14})/.match(@number.to_s)
-  # 	  @name =  "MC"
-  # 	elsif /((4)[\d]{15}) | ((4)[\d]{12})/.match(@number.to_s)
-  # 	  @name =  "VISA"
-  # 	end
-  # end
-
 end
 
 
@@ -84,11 +69,16 @@ end
 
 class CreditCard
 
-  VALID_TYPES = [CCType.new("AMEX", /(^3[4|7]\d{13})$/), CCType.new("DCCB", /(^30[0-5]\d{11})$/), CCType.new("DISC", /(^6011\d{12}$) | (^65\d{14}$)/), CCType.new("MC", /(^[51-55]\d{14}$)/), CCType.new("VISA", /^4\d{12}(\d{3})?$ /)]
-  attr_reader :number, :year, :month
+  VALID_TYPES = [CCType.new("AMEX", /^3(4|7)\d{13}$/), 
+                 CCType.new("DCCB", /^30[0-5]\d{11}$/), 
+                 CCType.new("DISC", /^6(011|5\d\d)\d{12}$/), 
+                 CCType.new("MC", /(^5[1-5]\d{14}$)/), 
+                 CCType.new("VISA", /^4\d{12}(\d{3})?$/)]
+  attr_reader :number, :type
+  attr_reader :year, :month
 
   def initialize(number, year, month)
-  	@number = number
+  	@number = number.to_s
   	@year = year
   	@month = month
     @type = VALID_TYPES.detect{|v| v.match(@number)}
@@ -98,28 +88,19 @@ class CreditCard
   	@CreditCard = CreditCard.new
   end
 
+  def expiration
+    "#{month}/#{year}"
+  end
+
+  def expired?
+    today = Date.today
+    year < today.year or (year == today.year and month < today.month)
+  end
+
   def valid?
-  	check_date && check_prefix && check_length
-
+  	!expired? and !type.nil?
   end
 
-  def check_date
-  	@year < Date.today.year || (@year == Date.today.year && @month < Date.today.month)
-  end
-
-  def check_prefix
-  	pattern = /((34|37)[\d]{13}) | ([300-305][\d]{11}) | ((6011)[\d]{12}) | ((65)[\d]{14}) | ([51-55][\d]{14}) | ((4)[\d]{15}) | ((4)[\d]{12})/
-  	pattern.match(@number.to_s)
-  end
-
-  def check_length
-  	len = @number.to_s.length
-
-  	return true if /((34|37)[\d]{13})/.match(@number.to_s) && len == 15
-  	return true if /([300-305][\d]{11})/.match(@number.to_s) && len == 14
-  	return true if /((6011)[\d]{12}) | ((65)[\d]{14})/.match(@number.to_s) && len == 16
-  	return true if /([51-55][\d]{14})/.match(@number.to_s) && len == 16
-  	return true if /((4)[\d]{15}) | ((4)[\d]{12})/.match(@number.to_s) && (len == 13 || len == 16)
-  end
+  
 end
 

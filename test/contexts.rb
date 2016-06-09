@@ -4,6 +4,8 @@ require './test/sets/customers'
 require './test/sets/addresses'
 require './test/sets/users'
 require './test/sets/credit_cards'
+require './test/sets/items'
+require './test/sets/item_prices'
 
 module Contexts
   # explicitly include all sets of contexts used for testing 
@@ -12,4 +14,6 @@ module Contexts
   include Contexts::Addresses
   include Contexts::Users
   include Contexts::CreditCards
+  include Contexts::Items
+  include Contexts::ItemPrices
 end

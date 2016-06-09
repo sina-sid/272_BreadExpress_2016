@@ -11,7 +11,7 @@ class Item < ActiveRecord::Base
   scope :active,        -> { where(active: true) }
   scope :inactive,      -> { where(active: false) }
   scope :alphabetical,  -> { order(:name) }
-  scope :for_category,  -> (category) { where("category: ?", category)}
+  scope :for_category,  -> (category) { where("category = ?", category)}
 
   # Validations
   validates_presence_of :name, :category, :units_per_item, :weight

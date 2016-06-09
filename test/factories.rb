@@ -29,7 +29,7 @@ FactoryGirl.define do
 
   factory :item do
     name "Honey Wheat Bread"
-    description "Best. Bread. Ever."
+    description "Best ever."
     category "bread"
     picture "home-1.jpg"
     units_per_item 1
