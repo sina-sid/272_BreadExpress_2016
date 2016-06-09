@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  should have_many(:customers)
+  should have_one(:customer)
 
   should validate_uniqueness_of(:username).case_insensitive
 
@@ -11,22 +11,27 @@ class UserTest < ActiveSupport::TestCase
     end
     
     teardown do
-      remove_users
+      destroy_users
     end
 
-    should "show there are x active users" do
+    should "show there are 3 active users" do
+      assert_equal ["alex", "anthony","ben"], User.active.all.map(&:username).sort
     end
 
-    should "show there are x inactive users" do
+    should "show there are 2 inactive users" do
+      assert_equal ["bryan", "harry"], User.inactive.all.map(&:username).sort
     end
 
-    should "show there are x employees" do    	
+    should "show there are 3 employees" do  
+      assert_equal ["alex", "ben", "bryan"], User.employees.all.map(&:username).sort  	
     end
 
     should "order users alphabetically" do
+      assert_equal ["alex", "anthony","ben", "bryan", "harry"], User.alphabetical.all.map(&:username)
     end
 
     should "order users by role" do
+      assert_equal ["alex", "bryan", "anthony", "harry", "ben"], User.by_role.all.map(&:username)
     end
 
     should "have working role? method" do 

@@ -1,16 +1,15 @@
 class User < ActiveRecord::Base
   has_secure_password
-  include BreadExpressHelpers::Validations
 
   # Relationships  
-  has_one :customer # not sure about this
+  has_one :customer
 
   # Scopes
   scope :active,        -> { where(active: true) }
   scope :inactive,      -> { where(active: false) }
   scope :employees,		-> { where.not(role: 'customer') }
   scope :alphabetical,  -> { order(:username) }
-  scope :by_role, 		-> { order(:role) }
+  scope :by_role, 		-> { order(:role).order(:username) }
   
   # Validations
   validates_uniqueness_of :username, case_sensitive: false
@@ -20,13 +19,13 @@ class User < ActiveRecord::Base
   validates_length_of :password, minimum: 4, message: "must be at least 4 characters long"
 
   # Other methods
-  def role?
+  def role?(authorized_role)
   	return false if (self.nil? || self.role.nil?)
     self.role.downcase.to_sym == authorized_role
   end
 
   # login with username
-  def self.authenticate(email, password)
+  def self.authenticate(username, password)
     find_by_username(username).try(:authenticate, password)
   end
   

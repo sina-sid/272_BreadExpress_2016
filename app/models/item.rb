@@ -1,6 +1,6 @@
 class Item < ActiveRecord::Base
   # Relationships
-  has_many :order_item
+  has_many :order_items
   has_many :item_prices
 
   # Callbacks
@@ -21,13 +21,12 @@ class Item < ActiveRecord::Base
 
   # Other methods
   def current_price
-  	active_price = self.item_price.where(end_date: nil) # not sure about this
+  	active_price = self.item_price.where(end_date: nil)
   	return nil if (active_price == nil || active_price == 0)
   	active_price
   end
 
   def price_on_date(date)
-  	# woah, gotta do some math here
   end
 
   # Private methods for callbacks

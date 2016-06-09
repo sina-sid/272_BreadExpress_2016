@@ -3,8 +3,10 @@ SimpleCov.start 'rails'
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-require 'turn/autorun'
+require 'minitest/rails'
+require 'minitest/reporters'
 require 'contexts'
+require 'minitest_extensions'
 
 
 class ActiveSupport::TestCase
@@ -19,5 +21,5 @@ class ActiveSupport::TestCase
   end
 end
 
-# Formatting test output a litte nicer
-Turn.config.format = :outline
+  # Spruce up minitest results...
+  Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
