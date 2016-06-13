@@ -5,9 +5,21 @@ class ItemPriceTest < ActiveSupport::TestCase
   should belong_to(:item)
 
   # Testing validations
-  should validate_date(:start_date).on_or_before(:end_date)
-  should validate_date(:end_date).on_or_before(Date.today)
-  should validate_numericality_of(:price).greater_than_or_equal_to(0)
+  should allow_value(Date.today).for(:start_date)
+  should allow_value(2.weeks.ago.to_date).for(:start_date)
+  should allow_value(2.days.from_now.to_date).for(:start_date)
+  should_not allow_value("fred").for(:start_date)
+  should_not allow_value(3.14159).for(:start_date)
+  should_not allow_value(nil).for(:start_date)
+
+  should allow_value(Date.today).for(:end_date)
+  should allow_value(2.weeks.ago.to_date).for(:end_date)
+  should allow_value(2.days.from_now.to_date).for(:end_date)
+  should allow_value(nil).for(:end_date)
+  should_not allow_value("fred").for(:end_date)
+  should_not allow_value(3.14159).for(:end_date) 
+
+  should validate_numericality_of(:price).is_greater_than_or_equal_to(0)
 
   # rest with contexts
   context "Within context" do

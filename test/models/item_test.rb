@@ -18,12 +18,10 @@ class ItemTest < ActiveSupport::TestCase
   context "Within context" do
     setup do
       create_muffins
-      # create_pastries
     end
     
     teardown do
       destroy_muffins
-      # destroy_pastries
     end
 
     should "show that scope exists for alphabeticizing items" do

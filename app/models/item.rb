@@ -5,7 +5,7 @@ class Item < ActiveRecord::Base
 
   # Callbacks
   before_destroy :is_destroyable?
-  after_rollback :convert_to_inactive
+  after_rollback :clear_order_items_and_inactive
 
   # Scopes
   scope :active,        -> { where(active: true) }
@@ -14,19 +14,24 @@ class Item < ActiveRecord::Base
   scope :for_category,  -> (category) { where("category = ?", category)}
 
   # Validations
+  # category
+  validates_inclusion_of :category, in: %w[bread muffins pastries], message: "is not an option"
   validates_presence_of :name, :category, :units_per_item, :weight
   validates_numericality_of :weight, greater_than: 0
   validates_numericality_of :units_per_item, greater_than: 0
-  validates_uniqueness_of :name, case_sensitive: false # what else makes it unique?
+  validates_uniqueness_of :name, case_sensitive: false
 
   # Other methods
   def current_price
-  	active_price = self.item_price.where(end_date: nil)
+  	active_price = self.item_price.where("end_date = NULL OR end_date > ?", Date.today)
   	return nil if (active_price == nil || active_price == 0)
   	active_price
   end
 
   def price_on_date(date)
+    set_price = self.item_price.where("end_date >= ? AND end_date < ?", date)
+    return nil if (set_price == nil || set_price == 0)
+    set_price
   end
 
   # Private methods for callbacks
@@ -42,5 +47,28 @@ class Item < ActiveRecord::Base
 
   def make_inactive
     self.update_attribute(:active, false)
+  end
+
+  def remove_order_items
+    @unshipped_and_unpaid.each do |order_item|
+      OrderItem.find(order_item.id).destroy
+    end
+  end
+
+  def find_order_items
+    @unshipped_and_unpaid = Array.new
+    unshipped = self.order_items.unshipped
+    unshipped.each do |order_item|
+      @unshipped_and_unpaid << order_item if order_item.order.payment_receipt = nil
+    end
+    remove_order_items if !@unshipped_and_unpaid.nil?
+  end
+
+  def clear_order_items_and_inactive
+    if @destroyable
+      find_order_items
+      convert_to_inactive
+    end
+    @destroyable = nil
   end
 end

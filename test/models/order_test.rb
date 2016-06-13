@@ -81,7 +81,19 @@ class OrderTest < ActiveSupport::TestCase
 
     should "have a working scope called for_customer" do
       assert_equal [5.25, 5.25, 22.50], Order.for_customer(@alexe).all.map(&:grand_total).sort
-    end   
+    end 
+
+    # should "have a working scope called for_customer" do
+    # end
+
+    # should "have a working scope called not_shipped" do
+    # end
+
+    # should "have accessor methods for credit card data" do
+    # end
+
+    # should "identify different types of credit cards by their patterns" do
+    # end
 
   end
 end
