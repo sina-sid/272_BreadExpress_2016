@@ -8,8 +8,8 @@ class OrderItem < ActiveRecord::Base
   scope :unshipped,     -> { where(shipped_on: nil) }
 
   # Validations
-  validate_numericality_of :quantity, greater_than: 0
-  validate_date :shipped_on, on_or_before: Date.today, allow_blank: true #can this allow for future dates?
+  validates_numericality_of :quantity, greater_than: 0
+  validates_date :shipped_on, on_or_before: Date.today, allow_blank: true #can this allow for future dates?
   validate :item_is_active_in_system
 
   # Methods

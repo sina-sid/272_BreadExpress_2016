@@ -51,20 +51,35 @@ class ItemTest < ActiveSupport::TestCase
       destroy_muffin_prices
   	end
 
-  	should "show that items that have been previously shipped cannot be destroyed" do
-      # create_order_items
-
-  	  # destroy_order_items
+  	should "show that items that have been previously shipped cannot be destroyed but are made inactive" do
+      create_pastries
+      create_alexe_o2_order_items
+      @choc_muffins.destroy
+      assert @choc_muffins.valid?
+      deny @choc_muffins.active
+      destroy_pastries
+  	  destroy_alexe_o2_order_items
   	end
 
     should "show that items not shipped can be destroyed" do
-      # should have ghost customer case?
+      create_pastries
+      create_alexe_o2_order_items
+      @cookie.destroy
+      deny @cookie.valid?
+      destroy_pastries
+      destroy_alexe_o2_order_items
     end
 
     should "show that a destroyed item is not part of unshipped, unpaid orders" do
-    end
+      # create_pastries
+      # create_order_items
+      # create_orders
 
-    should "make an improperly destroyed item inactive" do
+      # @cookie.destroy
+
+      # destroy_pastries
+      # destroy_order_items
+      # destroy_orders
     end
 
   end
