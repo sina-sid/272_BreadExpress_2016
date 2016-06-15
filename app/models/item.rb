@@ -23,13 +23,13 @@ class Item < ActiveRecord::Base
   # Other methods
   def current_price
   	active_price = self.item_prices.find_by(end_date: nil)
-  	return nil if (active_price == nil || active_price.price == 0)
+  	return nil if (active_price.nil?)
   	active_price.price
   end
 
   def price_on_date(date)
-    set_price = self.item_prices.find_by("start_date <= ? AND (end_date = ? OR end_date > ?)", date, nil, date)
-    return nil if (set_price == nil || set_price.price == 0)
+    set_price = self.item_prices.find_by("start_date <= ? AND (end_date IS NULL OR end_date > ?)", date, date)
+    return nil if (set_price.nil?)
     set_price.price
   end
 

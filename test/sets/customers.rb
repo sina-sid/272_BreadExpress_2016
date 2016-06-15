@@ -6,7 +6,9 @@ module Contexts
       @melanie = FactoryGirl.create(:customer, user: @melanie_user, first_name: "Melanie", last_name: "Freeman")
       @anthony = FactoryGirl.create(:customer, user: @anthony_user, first_name: "Anthony", last_name: "Corletti", phone: "412-268-2323")
       @ryan    = FactoryGirl.create(:customer, user: @ryan_user, first_name: "Ryan", last_name: "Flood")
-      @sherry  = FactoryGirl.create(:customer, user: @sherry_user, first_name: "Sherry", last_name: "Chen", active: false)
+      @sherry  = FactoryGirl.create(:customer, user: @sherry_user, first_name: "Sherry", last_name: "Chen")
+      @sherry.active = false
+      @sherry.save!
     end
     
     def destroy_customers

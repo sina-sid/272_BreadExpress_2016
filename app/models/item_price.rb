@@ -8,15 +8,15 @@ class ItemPrice < ActiveRecord::Base
   
   # Scopes
   scope :current,  	    -> { where(end_date: nil) }
-  scope :for_date,      -> (date) { where("start_date <= ? AND (end_date = ? OR end_date > ?)", date, nil, date) }
+  scope :for_date,      -> (date) { where("start_date <= ? AND (end_date > ? OR end_date IS NULL)", date, date) }
   scope :for_item,       -> (item_id) { where("item_id = ?", item_id)}
   scope :chronological, -> { order(start_date: :desc) }
 
   # Validations
   validates_presence_of :price, :start_date
-  validates_numericality_of :price, greater_than: 0
+  validates_numericality_of :price, greater_than_or_equal_to: 0
   validates_date :start_date, on_or_before: Date.today
-  validates_date :end_date, on_or_after: :start_date, on_or_before: Date.today, allow_blank: true
+  validates_date :end_date, on_or_after: :start_date, allow_blank: true
   validate :item_is_active_in_system
 
   private

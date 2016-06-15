@@ -9,7 +9,7 @@ class Customer < ActiveRecord::Base
 
   # Callbacks
   before_destroy :is_destroyable?
-  before_save :make_user_inactive
+  before_update :make_user_inactive
   # before_create :create_user
 
   # Scopes
@@ -45,6 +45,7 @@ class Customer < ActiveRecord::Base
   end
 
   def make_user_inactive
+    return true if self.user.nil?
     self.user.update_attribute(:active, false) if self.active == false
   end
 

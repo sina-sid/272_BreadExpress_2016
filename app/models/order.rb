@@ -2,8 +2,7 @@ class Order < ActiveRecord::Base
   require 'base64'
   require 'credit_card'
 
-  attr_reader :number, :type
-  attr_reader :year, :month
+  attr_accessor :credit_card_number, :expiration_year, :expiration_month
 
   # Relationships
   belongs_to :customer
@@ -24,9 +23,12 @@ class Order < ActiveRecord::Base
   validates_numericality_of :grand_total, greater_than_or_equal_to: 0
   validate :customer_is_active_in_system
   validate :address_is_active_in_system
+  # validate :credit_card_number_is_valid
+  # validate :credit_card_expiration_is_valid
 
   # Other methods
   def pay
+    new_card
     return false unless self.payment_receipt.nil?
     generate_payment_receipt
     self.save!
@@ -62,10 +64,16 @@ class Order < ActiveRecord::Base
   end
 
   def credit_card_type
-
+    new_card
+    return "N/A" unless @credit_card.valid?
+    @credit_card.type.name
   end
   
   private
+  def new_card
+    @credit_card = CreditCard.new(credit_card_number, expiration_year, expiration_month)
+  end
+
   def customer_is_active_in_system
     all_customer_ids = Customer.active.map(&:id)
     unless all_customer_ids.include?(self.customer_id)
@@ -81,7 +89,7 @@ class Order < ActiveRecord::Base
   end
 
   def generate_payment_receipt
-    self.payment_receipt = Base64.encode64("order: #{self.id}; amount_paid: #{self.grand_total}; received: #{self.date}")
+    self.payment_receipt = Base64.encode64("order: #{self.id}; amount_paid: #{self.grand_total}; received: #{self.date}; card: #{@credit_card.type.name} #{credit_card_number.to_s.last(4)}")
   end
 
   def is_destroyable?

@@ -7,17 +7,17 @@ class ItemPriceTest < ActiveSupport::TestCase
   # Testing validations
   should allow_value(Date.today).for(:start_date)
   should allow_value(2.weeks.ago.to_date).for(:start_date)
-  should allow_value(2.days.from_now.to_date).for(:start_date)
+  should_not allow_value(2.days.from_now.to_date).for(:start_date)
   should_not allow_value("fred").for(:start_date)
   should_not allow_value(3.14159).for(:start_date)
   should_not allow_value(nil).for(:start_date)
 
-  should allow_value(Date.today).for(:end_date)
-  should allow_value(2.weeks.ago.to_date).for(:end_date)
-  should allow_value(2.days.from_now.to_date).for(:end_date)
-  should allow_value(nil).for(:end_date)
-  should_not allow_value("fred").for(:end_date)
-  should_not allow_value(3.14159).for(:end_date) 
+  # should allow_value(Date.today).for(:end_date)
+  # should allow_value(2.weeks.ago.to_date).for(:end_date)
+  # should allow_value(2.days.from_now.to_date).for(:end_date)
+  # should allow_value(nil).for(:end_date)
+  # should_not allow_value("fred").for(:end_date)
+  # should_not allow_value(3.14159).for(:end_date) 
 
   should validate_numericality_of(:price).is_greater_than_or_equal_to(0)
 
@@ -51,17 +51,20 @@ class ItemPriceTest < ActiveSupport::TestCase
 
     should "automatically set old end_date to new start_date" do
       @choc_muffins_new_price = FactoryGirl.create(:item_price, item: @choc_muffins, price: 1.99, start_date: Date.today)
+      @choc_muffins_price.reload
       assert_equal Date.today, @choc_muffins_price.end_date
       @choc_muffins_new_price.delete
     end
 
     should "show items are active in system" do
-      @choc_muffins_new_price = FactoryGirl.build(:item_price, item: @choc_muffins, price: 1.99, start_date: Date.today)
-      assert @choc_muffins.active
-  
+      # Prices cannot be created for inactive items
       deny @plain_muffins.active
-      @plain_muffins_price = FactoryGirl.build(:item_price, item: @choc_muffins, price: 1.99, start_date: Date.today)
+      @plain_muffins_price = FactoryGirl.build(:item_price, item: @plain_muffins, price: 1.99)
       deny @plain_muffins_price.valid?
+      # Nor can prices be created for ghost items
+      @ghost_item = FactoryGirl.build(:item, name: "Ghost", description: "Does not exist in database", category: "muffins")
+      @ghost_item_price = FactoryGirl.build(:item_price, item: @ghost_item, price: 12.99, start_date: 1.year.ago.to_date, end_date: nil)
+      deny @ghost_item_price.valid?
     end
 
     should "not allow record to be destroyed" do
