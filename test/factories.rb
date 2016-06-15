@@ -37,14 +37,14 @@ FactoryGirl.define do
     active true
   end
 
-  factory :item_prices do
+  factory :item_price do
     association :item
     price 8.50
     start_date Date.today
     end_date nil
   end
 
-  factory :order_items do
+  factory :order_item do
     association :order
     association :item
     quantity 1
