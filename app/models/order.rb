@@ -2,6 +2,9 @@ class Order < ActiveRecord::Base
   require 'base64'
   require 'credit_card'
 
+  attr_reader :number, :type
+  attr_reader :year, :month
+
   # Relationships
   belongs_to :customer
   belongs_to :address
@@ -31,11 +34,12 @@ class Order < ActiveRecord::Base
   end
 
   def is_editable?
-    false if ( self.order_items == nil or self.order_items.unshipped.empty?)
+    false if (self.order_items == nil or self.order_items.unshipped.empty?)
     true 
   end
 
   def self.not_shipped
+    Order.joins(:order_items).where(shipped_on: nil)
   end
 
   def total_weight
@@ -48,7 +52,13 @@ class Order < ActiveRecord::Base
   end
 
   def shipping_costs
-
+    base = 2.00
+    weight = self.total_weight
+    if weight <= 5.99
+      base
+    else
+      base+((weight-6.00)*0.25)
+    end
   end
 
   def credit_card_type

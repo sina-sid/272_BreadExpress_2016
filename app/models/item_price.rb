@@ -4,7 +4,7 @@ class ItemPrice < ActiveRecord::Base
 
   # Callbacks
   before_destroy :is_destroyable?
-  before_create :set_end_date #does this need to be in after_rollback instead?
+  before_create :set_end_date
   
   # Scopes
   scope :current,  	    -> { where(end_date: nil) }
