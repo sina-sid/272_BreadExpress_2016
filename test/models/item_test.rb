@@ -13,6 +13,16 @@ class ItemTest < ActiveSupport::TestCase
   should validate_numericality_of(:weight).is_greater_than(0)
   should validate_numericality_of(:units_per_item).is_greater_than(0)
   should validate_uniqueness_of(:name).case_insensitive
+
+  should allow_value("bread").for(:category)
+  should allow_value("pastries").for(:category)
+  should allow_value("muffins").for(:category)
+  should allow_value("customer").for(:category)
+  should_not allow_value("bad").for(:category)
+  should_not allow_value("hacker").for(:category)
+  should_not allow_value(10).for(:category)
+  should_not allow_value("vp").for(:category)
+  should_not allow_value(nil).for(:category)
   
   # rest with contexts
   context "Within context" do

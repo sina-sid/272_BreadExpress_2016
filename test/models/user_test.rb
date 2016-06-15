@@ -4,6 +4,15 @@ class UserTest < ActiveSupport::TestCase
   should have_one(:customer)
 
   should validate_uniqueness_of(:username).case_insensitive
+  should allow_value("admin").for(:role)
+  should allow_value("baker").for(:role)
+  should allow_value("shipper").for(:role)
+  should allow_value("customer").for(:role)
+  should_not allow_value("bad").for(:role)
+  should_not allow_value("hacker").for(:role)
+  should_not allow_value(10).for(:role)
+  should_not allow_value("vp").for(:role)
+  should_not allow_value(nil).for(:role)
 
   context "Creating a context for users" do
     setup do 

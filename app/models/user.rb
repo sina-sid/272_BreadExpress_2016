@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   scope :by_role, 		-> { order(:role).order(:username) }
   
   # Validations
+  validates_inclusion_of :role, in: %w[admin baker shipper customer], message: "is not an option"
   validates_uniqueness_of :username, case_sensitive: false
   validates_presence_of :password, on: :create 
   validates_presence_of :password_confirmation, on: :create 

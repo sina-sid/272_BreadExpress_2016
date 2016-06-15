@@ -14,7 +14,6 @@ class Item < ActiveRecord::Base
   scope :for_category,  -> (category) { where("category = ?", category)}
 
   # Validations
-  # category
   validates_inclusion_of :category, in: %w[bread muffins pastries], message: "is not an option"
   validates_presence_of :name, :category, :units_per_item, :weight
   validates_numericality_of :weight, greater_than: 0
@@ -29,7 +28,7 @@ class Item < ActiveRecord::Base
   end
 
   def price_on_date(date)
-    set_price = self.item_prices.find_by("start_date >= ? AND (end_date = ? OR end_date < ?)", date, nil, date)
+    set_price = self.item_prices.find_by("start_date <= ? AND (end_date = ? OR end_date > ?)", date, nil, date)
     return nil if (set_price == nil || set_price.price == 0)
     set_price.price
   end
@@ -41,12 +40,8 @@ class Item < ActiveRecord::Base
   end
   
   def convert_to_inactive
-    make_inactive if !@destroyable.nil? && @destroyable == false
+    self.update_attribute(:active, false) if !@destroyable.nil? && @destroyable == false
     @destroyable = nil
-  end
-
-  def make_inactive
-    self.update_attribute(:active, false)
   end
 
   def remove_order_items
@@ -57,15 +52,15 @@ class Item < ActiveRecord::Base
 
   def find_order_items
     @unshipped_and_unpaid = Array.new
-    unshipped = self.order_items.unshipped
+    unshipped = OrderItem.find_by(item_id: self.id, shipped_on: nil).to_a
     unshipped.each do |order_item|
       @unshipped_and_unpaid << order_item if order_item.order.payment_receipt = nil
     end
-    remove_order_items if !@unshipped_and_unpaid.nil?
+    remove_order_items unless unshipped_and_unpaid.empty?
   end
 
   def clear_order_items_and_inactive
-    if @destroyable
+    if !@destroyable
       find_order_items
       convert_to_inactive
     end
