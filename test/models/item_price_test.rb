@@ -12,13 +12,6 @@ class ItemPriceTest < ActiveSupport::TestCase
   should_not allow_value(3.14159).for(:start_date)
   should_not allow_value(nil).for(:start_date)
 
-  # should allow_value(Date.today).for(:end_date)
-  # should allow_value(2.weeks.ago.to_date).for(:end_date)
-  # should allow_value(2.days.from_now.to_date).for(:end_date)
-  # should allow_value(nil).for(:end_date)
-  # should_not allow_value("fred").for(:end_date)
-  # should_not allow_value(3.14159).for(:end_date) 
-
   should validate_numericality_of(:price).is_greater_than_or_equal_to(0)
 
   # rest with contexts
@@ -31,6 +24,21 @@ class ItemPriceTest < ActiveSupport::TestCase
     teardown do
       destroy_muffins
       destroy_muffin_prices
+    end
+
+    should "make sure end_date is after start_date" do
+      # should not allow end_date to be before start date
+      @choc_muffins_test_price_1 = FactoryGirl.build(:item_price, item: @choc_muffins, price: 2.99, start_date: Date.today, end_date: 2.days.ago.to_date)
+      deny @choc_muffins_test_price_1.valid?
+      # should not allow end_date to be same as start date
+      @choc_muffins_test_price_2 = FactoryGirl.build(:item_price, item: @choc_muffins, price: 3.99, start_date: Date.today, end_date: Date.today)
+      deny @choc_muffins_test_price_2.valid?
+      # should allow end_date to be after start date
+      @choc_muffins_test_price_3 = FactoryGirl.build(:item_price, item: @choc_muffins, price: 4.99, start_date: 2.days.ago.to_date, end_date: Date.today)
+      assert @choc_muffins_test_price_3.valid?
+      # should not allow end_date to be in the future
+      @choc_muffins_test_price_4 = FactoryGirl.build(:item_price, item: @choc_muffins, price: 2.99, start_date: Date.today, end_date: 2.days.from_now.to_date)
+      deny @choc_muffins_test_price_4.valid?
     end
 
     should "display all current prices in system" do

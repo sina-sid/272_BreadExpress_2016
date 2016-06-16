@@ -89,7 +89,7 @@ class Order < ActiveRecord::Base
   end
 
   def generate_payment_receipt
-    self.payment_receipt = Base64.encode64("order: #{self.id}; amount_paid: #{self.grand_total}; received: #{self.date}; card: #{@credit_card.type.name} #{credit_card_number.to_s.last(4)}")
+    self.payment_receipt = Base64.encode64("order: #{self.id}; amount_paid: #{self.grand_total}; received: #{self.date}; card: #{credit_card_type} #{credit_card_number.to_s.last(4)}")
   end
 
   def is_destroyable?

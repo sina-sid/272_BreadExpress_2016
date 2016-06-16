@@ -16,7 +16,7 @@ class ItemPrice < ActiveRecord::Base
   validates_presence_of :price, :start_date
   validates_numericality_of :price, greater_than_or_equal_to: 0
   validates_date :start_date, on_or_before: Date.today
-  validates_date :end_date, on_or_after: :start_date, allow_blank: true
+  validates_date :end_date, after: :start_date, on_or_before: Date.today, allow_blank: true
   validate :item_is_active_in_system
 
   private

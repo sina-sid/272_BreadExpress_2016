@@ -10,7 +10,6 @@ class Customer < ActiveRecord::Base
   # Callbacks
   before_destroy :is_destroyable?
   before_update :make_user_inactive
-  # before_create :create_user
 
   # Scopes
   scope :alphabetical,  -> { order(:last_name).order(:first_name) }
@@ -48,12 +47,5 @@ class Customer < ActiveRecord::Base
     return true if self.user.nil?
     self.user.update_attribute(:active, false) if self.active == false
   end
-
-  # def create_user
-  #   self.user = User.new if self.user.nil?
-  #   self.user.role = "customer"
-  #   self.user.active = self.active
-  #   self.user.save!
-  # end
 
 end

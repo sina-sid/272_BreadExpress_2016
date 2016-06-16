@@ -17,7 +17,6 @@ class ItemTest < ActiveSupport::TestCase
   should allow_value("bread").for(:category)
   should allow_value("pastries").for(:category)
   should allow_value("muffins").for(:category)
-  should allow_value("customer").for(:category)
   should_not allow_value("bad").for(:category)
   should_not allow_value("hacker").for(:category)
   should_not allow_value(10).for(:category)
@@ -64,8 +63,9 @@ class ItemTest < ActiveSupport::TestCase
   	should "show that items that have been previously shipped cannot be destroyed but are made inactive" do
       create_pastries
       create_alexe_o2_order_items
-      @choc_muffins.destroy
-      assert @choc_muffins.valid?
+      deny @choc_muffins.order_items.shipped.to_a.empty?
+      deny @choc_muffins.destroy
+      @choc_muffins.reload
       deny @choc_muffins.active
       destroy_pastries
   	  destroy_alexe_o2_order_items
@@ -74,22 +74,39 @@ class ItemTest < ActiveSupport::TestCase
     should "show that items not shipped can be destroyed" do
       create_pastries
       create_alexe_o2_order_items
-      @cookie.destroy
-      deny @cookie.valid?
+      assert @cookie.order_items.shipped.to_a.empty?
+      assert @cookie.destroy
       destroy_pastries
       destroy_alexe_o2_order_items
     end
 
     should "show that a destroyed item is not part of unshipped, unpaid orders" do
-      # create_pastries
-      # create_order_items
-      # create_orders
+      create_pastries
+      create_customer_users
+      create_customers
+      create_addresses
+      create_orders
+      create_alexe_o2_order_items
 
+      # Case 1: Item never shipped
+      # Item should be destroyed and no order items should be found containing this item_id
+
+      # Case 2: Item has been shipped, set to inactive
+      # Show item is set to inactive
+      # Create array of all item_ids from order_items that are unpaid, unshipped
+      # Show this array does not include this item's item_id
+
+      # unshipped_items = Item.order_items.
+      # cookie_id = @cookie.id
       # @cookie.destroy
 
-      # destroy_pastries
-      # destroy_order_items
-      # destroy_orders
+
+      destroy_pastries
+      destroy_customer_users
+      destroy_customers
+      destroy_addresses
+      destroy_orders
+      destroy_alexe_o2_order_items
     end
 
   end
