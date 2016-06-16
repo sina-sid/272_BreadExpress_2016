@@ -23,8 +23,8 @@ class Order < ActiveRecord::Base
   validates_numericality_of :grand_total, greater_than_or_equal_to: 0
   validate :customer_is_active_in_system
   validate :address_is_active_in_system
-  # validate :credit_card_number_is_valid
-  # validate :credit_card_expiration_is_valid
+  validate :credit_card_length_is_valid
+  validate :credit_card_expiration_is_valid
 
   # Other methods
   def pay
@@ -88,6 +88,21 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def credit_card_expiration_is_valid
+    new_card
+    if @credit_card.expired?
+      errors.add(:credit_card, "is an expired credit card number")
+    end
+  end
+
+  def credit_card_length_is_valid
+    if credit_card_number.to_s.length < 13 
+      errors.add(:credit_card, "is too short to be a valid credit card number")
+    elsif credit_card_number.to_s.length > 16
+      errors.add(:credit_card, "is too long to be a valid credit card number") 
+    end
+  end
+
   def generate_payment_receipt
     self.payment_receipt = Base64.encode64("order: #{self.id}; amount_paid: #{self.grand_total}; received: #{self.date}; card: #{credit_card_type} #{credit_card_number.to_s.last(4)}")
   end
@@ -107,4 +122,6 @@ class Order < ActiveRecord::Base
     end
     @destroyable = nil
   end
+
+
 end
