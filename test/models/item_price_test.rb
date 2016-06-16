@@ -46,7 +46,7 @@ class ItemPriceTest < ActiveSupport::TestCase
     end 
 
     should "display all prices on a particular date" do
-      assert_equal ["Chocolate Muffins: 12.99"], ItemPrice.for_date(1.year.ago.to_date).all.map{|i| i.item.name + ": " + i.price.to_s}.sort #display both price and name?
+      assert_equal ["Chocolate Muffins: 12.99"], ItemPrice.for_date(1.year.ago.to_date).all.map{|i| i.item.name + ": " + i.price.to_s}.sort
     end
 
     should "display all prices for a particular item" do

@@ -5,7 +5,7 @@ class Item < ActiveRecord::Base
 
   # Callbacks
   before_destroy :is_destroyable?
-  after_rollback :remove_order_items
+  after_rollback :clear_order_items_and_make_inactive
 
   # Scopes
   scope :active,        -> { where(active: true) }
@@ -40,22 +40,18 @@ class Item < ActiveRecord::Base
   end
   
   def convert_to_inactive
-    self.update_attribute(:active, false) if !@destroyable.nil? && @destroyable == false
-    @destroyable = nil
+    self.update_attribute(:active, false)
   end
 
   def remove_order_items
-    @unshipped_and_unpaid = OrderItem.unshipped.where(item_id: self.id).joins(:order).where("order.payment_receipt IS NULL")
+    @unshipped_and_unpaid = OrderItem.unshipped.where(item_id: self.id).joins(:order).where("orders.payment_receipt IS NULL")
     @unshipped_and_unpaid.each{|order_item| order_item.destroy}
-    puts "#{self.name}: #{self.active}"
-    convert_to_inactive
+    # puts "#{self.name}: #{self.active}"
   end
 
-  # def clear_order_items_and_inactive
-  #   if !@destroyable
-  #     remove_order_items
-  #     convert_to_inactive
-  #   end
-  #   @destroyable = nil
-  # end
+  def clear_order_items_and_make_inactive
+    remove_order_items if !@destroyable.nil? && @destroyable == false
+    convert_to_inactive if !@destroyable.nil? && @destroyable == false
+    @destroyable = nil
+  end
 end

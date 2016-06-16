@@ -82,27 +82,21 @@ class ItemTest < ActiveSupport::TestCase
 
     should "show that a destroyed item is not part of unshipped, unpaid orders" do
       create_pastries
-      create_customer_users
       create_customers
       create_addresses
       create_orders
       create_alexe_o2_order_items
 
-      # Case 1: Item never shipped
-      # Item should be destroyed and no order items should be found containing this item_id
-
       # Case 2: Item has been shipped, set to inactive
       # Show item is set to inactive
       # Create array of all item_ids from order_items that are unpaid, unshipped
       # Show this array does not include this item's item_id
-
-      # unshipped_items = Item.order_items.
-      # cookie_id = @cookie.id
-      # @cookie.destroy
-
-
+      deny @choc_muffins.order_items.shipped.to_a.empty?
+      @choc_muffins.destroy
+      deny @choc_muffins.active
+      unpaid_unshipped_order_items = OrderItem.unshipped.joins(:order).where("orders.payment_receipt IS NULL").map{|o| o.item_id}
+      deny unpaid_unshipped_order_items.include? @choc_muffins.id
       destroy_pastries
-      destroy_customer_users
       destroy_customers
       destroy_addresses
       destroy_orders

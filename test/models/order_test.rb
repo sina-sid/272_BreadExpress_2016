@@ -56,21 +56,6 @@ class OrderTest < ActiveSupport::TestCase
       assert_not_nil @melanie_o2.payment_receipt
     end
 
-    should "have a properly formatted payment receipt" do
-      @melanie_o2.pay
-      @melanie_o2.reload
-      assert_equal "order: #{@melanie_o2.id}; amount_paid: #{@melanie_o2.grand_total}; received: #{@melanie_o2.date}", Base64.decode64(@melanie_o2.payment_receipt)
-    end
-
-    should "not pay for an order twice" do
-      assert_nil @melanie_o2.payment_receipt
-      receipt = @melanie_o2.pay
-      @melanie_o2.reload
-      assert_equal receipt, Base64.encode64("order: #{@melanie_o2.id}; amount_paid: #{@melanie_o2.grand_total}; received: #{@melanie_o2.date}")
-      need_to_pay = @melanie_o2.pay
-      deny need_to_pay
-    end
-
     should "have a working scope called paid" do
       assert_equal [5.25, 5.25, 5.50, 16.50], Order.paid.all.map(&:grand_total).sort
     end
@@ -83,18 +68,44 @@ class OrderTest < ActiveSupport::TestCase
       assert_equal [5.25, 5.25, 22.50], Order.for_customer(@alexe).all.map(&:grand_total).sort
     end 
 
-    # should "have a working scope called for_customer" do
-    # end
+    should "have a properly formatted payment receipt" do
+      @melanie_o2.pay
+      @melanie_o2.reload
+      assert_equal "order: #{@melanie_o2.id}; amount_paid: #{@melanie_o2.grand_total}; received: #{@melanie_o2.date}; card: VISA 9012", Base64.decode64(@melanie_o2.payment_receipt)
+    end
 
-    # should "have a working scope called not_shipped" do
-    # end
+    should "not pay for an order twice" do
+      assert_nil @melanie_o2.payment_receipt
+      receipt = @melanie_o2.pay
+      @melanie_o2.reload
+      assert_equal receipt, Base64.encode64("order: #{@melanie_o2.id}; amount_paid: #{@melanie_o2.grand_total}; received: #{@melanie_o2.date}; card: VISA 9012")
+      need_to_pay = @melanie_o2.pay
+      deny need_to_pay
+    end
 
-    # should "have accessor methods for credit card data" do
-    # end
+    should "have a working class method called not_shipped" do
+      create_order_items
+      assert_equal ["Alex: 5.25", "Melanie: 5.50", "Melanie: 5.50", "Ryan: 11"], Order.not_shipped.all.map{|o| o.customer.first_name + ": " + o.grand_total.to_s}.sort
+      destroy_order_items
+    end
 
-    # should "identify different types of credit cards by their patterns" do
-    # end
+    should "have accessor methods for credit card data" do
+    end
 
+    should "identify different types of credit cards by their patterns" do
+    end
+
+    should "detect different trypes of valid and invalid credit card numbers" do
+    end
+
+    should "detect different types of too-short credit card numbers" do
+    end
+
+    should "detect different types of too-long credit card numbers" do
+    end
+
+    should "detect valid and invalid expiration dates" do
+    end
   end
 end
 
