@@ -84,28 +84,110 @@ class OrderTest < ActiveSupport::TestCase
     end
 
     should "have a working class method called not_shipped" do
+      create_pastries
+      create_muffins
       create_order_items
-      assert_equal ["Alex: 5.25", "Melanie: 5.50", "Melanie: 5.50", "Ryan: 11"], Order.not_shipped.all.map{|o| o.customer.first_name + ": " + o.grand_total.to_s}.sort
+      assert_equal ["Alex: 5.25", "Melanie: 5.5", "Melanie: 5.5", "Ryan: 11.0"], Order.not_shipped.all.map{|o| o.customer.first_name + ": " + o.grand_total.to_s}.sort
+      destroy_pastries
+      destroy_muffins
       destroy_order_items
     end
 
     should "have accessor methods for credit card data" do
+      Order.instance_methods.include? :credit_card_number
+      Order.instance_methods.include? :credit_card_number=
+      Order.instance_methods.include? :expiration_year
+      Order.instance_methods.include? :expiration_year=
+      Order.instance_methods.include? :expiration_month
+      Order.instance_methods.include? :expiration_month=
     end
 
     should "identify different types of credit cards by their patterns" do
-    end
-
-    should "detect different trypes of valid and invalid credit card numbers" do
+      # Testing with a VISA
+      order1 = Order.new
+      order1.credit_card_number = 4123456789012345
+      order1.expiration_year = 2016
+      order1.expiration_month = 12
+      assert_equal order1.credit_card_type, "VISA"   
+      # Testing with an AMEX
+      order2 = Order.new
+      order2.credit_card_number = 371234567890123
+      order2.expiration_year = 2016
+      order2.expiration_month = 12
+      assert_equal order2.credit_card_type, "AMEX"  
+      # Testing with a bad card
+      order3 = Order.new
+      order3.credit_card_number = 5476876
+      order3.expiration_year = 2016
+      order3.expiration_month = 12
+      assert_equal order3.credit_card_type, "N/A" 
     end
 
     should "detect different types of too-short credit card numbers" do
+      # Testing with a too-short VISA
+      order1 = @ryan_o1
+      order1.credit_card_number = 412
+      order1.expiration_year = 2016
+      order1.expiration_month = 12
+      deny order1.valid?
     end
 
     should "detect different types of too-long credit card numbers" do
+      # Testing with a too-long VISA
+      order1 = @ryan_o1
+      order1.credit_card_number = 41234567890123456381238123681273
+      order1.expiration_year = 2016
+      order1.expiration_month = 12
+      deny order1.valid?
     end
 
     should "detect valid and invalid expiration dates" do
+      # Testing with a valid VISA
+      order1 = @ryan_o1
+      order1.credit_card_number = 4123456789012345
+      order1.expiration_year = 2018
+      order1.expiration_month = 12
+      assert order1.valid?
+      # Testing with an expired VISA
+      order2 = @alexe_o1
+      order2.credit_card_number = 4123456789012345
+      order2.expiration_year = 2016
+      order2.expiration_month = 2.months.ago.to_date.month
+      deny order2.valid?
+      # Testing with another expired VISA
+      order2 = @alexe_o1
+      order2.credit_card_number = 4123456789012345
+      order2.expiration_year = 2014
+      order2.expiration_month = 12
+      deny order2.valid?
     end
+
+    should "have a working is_editable? method" do
+      # assert @melanie_o2.is_editable?
+      deny @melanie_o1.is_editable?
+      deny @alexe_o1.is_editable?
+    end
+
+    should "calculate the total weight of the order" do
+      assert_equal @alexe_o1.total_weight, 4.0
+      assert_equal @melanie_o2.total_weight, 8.5
+    end
+
+    should "calculate shipping costs of the order" do
+      assert_equal @alexe_o1.shipping_costs, 2.0
+      assert_equal @melanie_o2.shipping_costs, 2.625
+    end
+
+    should "destroy orders with no shipped items" do
+      assert @melanie_o2.destroy
+      assert @melanie_o2_blueberry_muffins.nil?
+      assert @melanie_o2_apple_pie.nil?
+    end
+
+    should "not destroy orders with a shipped item" do
+      deny @melanie_o1.destroy
+    end
+
   end
 end
 

@@ -1,7 +1,7 @@
 module Contexts
   module OrderItems
     # Context for order_items (assumes order, muffins, pastries context)
-    def order_items
+    def create_order_items
       create_alexe_o1_order_items
       create_alexe_o2_order_items
       create_alexe_o3_order_items
@@ -61,8 +61,8 @@ module Contexts
     end
 
     def create_melanie_o2_order_items
-      @melanie_o2_blueberry_muffins = FactoryGirl.create(:order_item, order: @melanie_o1, item: @blueberry_muffins, quantity: 5, shipped_on: nil)
-      @melanie_o2_apple_pie = FactoryGirl.create(:order_item, order: @melanie_o1, item: @apple_pie, quantity: 1, shipped_on: nil)
+      @melanie_o2_blueberry_muffins = FactoryGirl.create(:order_item, order: @melanie_o2, item: @blueberry_muffins, quantity: 5, shipped_on: nil)
+      @melanie_o2_apple_pie = FactoryGirl.create(:order_item, order: @melanie_o2, item: @apple_pie, quantity: 1, shipped_on: nil)
     end
 
     def destroy_melanie_o2_order_items

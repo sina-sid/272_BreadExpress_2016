@@ -2,7 +2,9 @@ class Order < ActiveRecord::Base
   require 'base64'
   require 'credit_card'
 
-  attr_accessor :credit_card_number, :expiration_year, :expiration_month
+  attr_accessor :credit_card_number
+  attr_accessor :expiration_year
+  attr_accessor :expiration_month
 
   # Relationships
   belongs_to :customer
@@ -36,12 +38,13 @@ class Order < ActiveRecord::Base
   end
 
   def is_editable?
-    false if (self.order_items == nil or self.order_items.unshipped.empty?)
-    true 
+    return false if (self.order_items == nil or self.order_items.unshipped.empty?)
+    return true 
   end
 
   def self.not_shipped
-    Order.joins(:order_items).where(shipped_on: nil)
+    unshipped = OrderItem.where("shipped_on IS NULL")
+    return Order.where(id: unshipped.all.map(&:order_id))
   end
 
   def total_weight
@@ -66,11 +69,12 @@ class Order < ActiveRecord::Base
   def credit_card_type
     new_card
     return "N/A" unless @credit_card.valid?
-    @credit_card.type.name
+    return @credit_card.type.name
   end
   
   private
   def new_card
+    @credit_card = nil if credit_card_number.nil? || expiration_year.nil? || expiration_month.nil?
     @credit_card = CreditCard.new(credit_card_number, expiration_year, expiration_month)
   end
 
@@ -89,10 +93,12 @@ class Order < ActiveRecord::Base
   end
 
   def credit_card_expiration_is_valid
-    new_card
-    if @credit_card.expired?
-      errors.add(:credit_card, "is an expired credit card number")
-    end
+    today = Date.today
+    if credit_card_number.nil? || expiration_year.nil? || expiration_month.nil?
+      return true
+    elsif expiration_year < today.year or (expiration_year == today.year and expiration_month < today.month)
+      errors.add(:credit_card, "is expired")
+    end 
   end
 
   def credit_card_length_is_valid
