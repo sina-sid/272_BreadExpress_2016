@@ -163,19 +163,19 @@ class OrderTest < ActiveSupport::TestCase
     end
 
     should "have a working is_editable? method" do
-      # assert @melanie_o2.is_editable?
+      assert @melanie_o2.is_editable?
       deny @melanie_o1.is_editable?
       deny @alexe_o1.is_editable?
     end
 
     should "calculate the total weight of the order" do
-      assert_equal @alexe_o1.total_weight, 4.0
-      assert_equal @melanie_o2.total_weight, 8.5
+      assert_equal 4.0, @alexe_o1.total_weight
+      assert_equal 8.5, @melanie_o2.total_weight
     end
 
     should "calculate shipping costs of the order" do
       assert_equal @alexe_o1.shipping_costs, 2.0
-      assert_equal @melanie_o2.shipping_costs, 2.625
+      assert_equal 2.625, @melanie_o2.shipping_costs
     end
 
     should "destroy orders with no shipped items" do

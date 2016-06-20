@@ -49,7 +49,7 @@ class Order < ActiveRecord::Base
 
   def total_weight
     total = 0
-    all_order_items = self.order_items.to_a
+    all_order_items = self.order_items.where(order_id: self.id)
     all_order_items.each do |order_item|
       total += order_item.weight
     end
