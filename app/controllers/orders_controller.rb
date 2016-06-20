@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
-
-
+  include BreadExpressHelpers::Cart
+  include BreadExpressHelpers::Shipping
   before_action :check_login
   before_action :set_order, only: [:show, :update, :destroy]
   authorize_resource
@@ -25,14 +25,30 @@ class OrdersController < ApplicationController
   end
 
   def new
+  end
 
+  def create_empty_cart
+    create_cart
+  end
+
+  def add_item_to_cart
+  end
+
+  def remove_from_cart
+  end
+
+  def view_cart
+  end
+
+  def checkout
   end
 
   def create
     @order = Order.new(order_params)
+    # create_empty_cart
 
     if @order.save
-
+      # save_each_item_in_cart(@order)
       redirect_to @order, notice: "Thank you for ordering from Bread Express."
     else
       render action: 'new'
@@ -48,6 +64,7 @@ class OrdersController < ApplicationController
   end
 
   def destroy
+    # clear_cart
     @order.destroy
     redirect_to orders_url, notice: "This order was removed from the system."
   end

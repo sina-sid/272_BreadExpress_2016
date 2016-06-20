@@ -4,11 +4,17 @@ BreadExpress::Application.routes.draw do
   resources :addresses
   resources :customers
   resources :orders
+  resources :items
+  # resources :users
+  # resources :order_items
+  # resources :item_prices
 
   
   # Authentication routes
-
-
+  get 'user/edit' => 'users#edit', as: :edit_current_user
+  get 'signup' => 'users#new', as: :signup
+  get 'logout' => 'sessions#destroy', as: :logout
+  get 'login' => 'sessions#new', as: :login
 
   # Semi-static page routes
   get 'home' => 'home#home', as: :home
