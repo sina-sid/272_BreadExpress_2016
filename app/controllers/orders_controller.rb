@@ -1,4 +1,6 @@
 # TO DO: DOES SHOW METHOD UPDATE WITH EVERY ADDITION TO CART?
+# LOG OUT: DESTROY CART
+# DESTROY ORDER: CLEAR CART
 
 class OrdersController < ApplicationController
   include BreadExpressHelpers::Cart
@@ -30,6 +32,7 @@ class OrdersController < ApplicationController
   end
 
   def view_cart
+    # should do this in checkout
     @cart_items = get_list_of_items_in_cart.paginate(:page => params[:page]).per_page(10)
     @total_cost = calculate_cart_items_cost
     @shipping_costs = calculate_cart_shipping
@@ -67,6 +70,7 @@ class OrdersController < ApplicationController
   end
 
   def update
+    # is_editable?
     # to do, find ways to figure out what update has been made to the cart and call fns accordingly
     if @order.update(order_params)
       redirect_to @order, notice: "Your order was revised in the system."

@@ -30,15 +30,15 @@ class Ability
 
       # ORDERITEM
       # can see, update orderitems
-      can :read, OrderItem
-      can :update, OrderItem
+      can :manage, OrderItem
 
-      # ITEM, ITEMPRICE, ORDER, Address
-      # can see all items
+      # ITEM, ITEMPRICE, ORDER, ADDRESS, CUSTOMER
+      # can see all
       can :read, Item
       can :read, ItemPrice
       can :read, Order
       can :read, Address
+      can :read, Customer
 
     #######################
     ## BAKERS
@@ -61,6 +61,9 @@ class Ability
       can :read, Item
       can :read, ItemPrice
       can :read, OrderItem
+      can :read, Order
+      can :read, Address
+      can :read, Customer
 
     #######################
     ## CUSTOMERS
@@ -90,47 +93,57 @@ class Ability
       end 
 
       # ORDER 
+      can :manage, Order do |o|
+        o.order.customer_id == user.customer.id
+      end
+
       # can create orders for themselves
-      can :create, Order do |o|
-        o.customer_id == user.customer.id
-      end
+      # can :create, Order do |o|
+      #   o.customer_id == user.customer.id
+      # end
 
-      # can see their past orders
-      can :read, Order do |o|
-      	o.customer_id == user.customer.id
-      end
+      # # can see their past orders
+      # can :read, Order do |o|
+      # 	o.customer_id == user.customer.id
+      # end
 
-      # can update orders with no shipped items?
-      can :update, Order do |o|
-      	if o.order_items.shipped.empty?
-      	  o.customer_id == user.customer_id
-      	end
-      end
+      # # can update orders with no shipped items?
+      # can :update, Order do |o|
+      # 	if o.order_items.shipped.empty?
+      # 	  o.customer_id == user.customer_id
+      # 	end
+      # end
+
+      # can :manage orders, orderitems
 
       # ORDER ITEM
+      can :manage, OrderItem do |oi|
+        oi.order.customer_id == user.customer.id
+      end
+
       # can see order_items in order placed by them
-      can :read, OrderItem do |oi|
-      	oi.order.customer_id == user.customer.id
-      end
+      # can :read, OrderItem do |oi|
+      # 	oi.order.customer_id == user.customer.id
+      # end
 
-      # can create order_items for themselves
-      can :create, OrderItem do |oi|
-      	oi.order.customer_id == user.customer.id
-      end
+      # # can create order_items for themselves
+      # can :create, OrderItem do |oi|
+      # 	oi.order.customer_id == user.customer.id
+      # end
 
-      # can update order_items if unshipped
-      can :update, OrderItem do |oi|
-      	if oi.shipped_on.nil?
-      	  oi.order.customer_id == user.customer.id
-      	end
-      end
+      # # can update order_items if unshipped
+      # can :update, OrderItem do |oi|
+      # 	if oi.shipped_on.nil?
+      # 	  oi.order.customer_id == user.customer.id
+      # 	end
+      # end
 
-      # can destroy order_items if unshipped
-      can :update, OrderItem do |oi|
-      	if oi.shipped_on.nil?
-      	  oi.order.customer_id == user.customer.id
-      	end
-      end
+      # # can destroy order_items if unshipped
+      # can :update, OrderItem do |oi|
+      # 	if oi.shipped_on.nil?
+      # 	  oi.order.customer_id == user.customer.id
+      # 	end
+      # end
 
       # ITEM, ITEMPRICE
       # Can see active items
@@ -170,13 +183,11 @@ class Ability
     #######################  
     else
       # Can see current items, current item_prices
-      can :read, Item do |i|
-        i.active
-      end
+      can :read, Item
+      can :read, ItemPrices
 
-      can :read, ItemPrices do |ip|
-        ip.end_date.nil?
-      end
-
+      can :create, Customer
+      can :create, User
+    end
   end
 end

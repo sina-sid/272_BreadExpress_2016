@@ -5,6 +5,7 @@ BreadExpress::Application.routes.draw do
   resources :customers
   resources :orders
   resources :items
+  resources :sessions
   # resources :users
   # resources :order_items
   # resources :item_prices

@@ -1,0 +1,21 @@
+<h3>Log In</h3>
+
+<%= form_tag sessions_path do %>
+  <div class="row">
+    <div class= "medium-6 medium-centered large-4 large-centered columns">
+      <div class="row column log-in-form">
+        <h4 class="text-center">Login to BreadExpress</h4>
+        <%= label_tag :username %>
+        <div class="controls">
+          <%= text_field_tag :username, params[:username] %>
+        </div>
+        <div class="control-group">
+          <%= label_tag :password %>
+        <div class="controls">
+          <%= password_field_tag :password %>
+        </div>
+      </div>
+      <p><%= submit_tag "Log In", :class => 'button custom round' %></p>
+    </div></div></div><br><br><br>
+<% end %>
+      
