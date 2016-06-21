@@ -1,0 +1,31 @@
+<% if items.empty? %>
+  <p><em>There are no <%= state %> items at this time.</em></p>
+<% else %>
+<h2>Available Items</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Units</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% items.each do |item| %>
+      <tr>
+        <td><%= link_to item.name, item_path(item) %></td>
+        <td><%= number_to_currency item.current_price %></td>
+        <td><%= item.units_per_item %> <%= item.category%></td>      
+        <td>
+          <%= link_to(edit_item_path(item), class: 'button tiny radius warning') do %>
+            &nbsp;Edit&nbsp;
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= will_paginate items, previous_label: "Previous&nbsp;", next_label: "&nbsp;Next" %>  
+<% end %>
+<p>&nbsp;</p>

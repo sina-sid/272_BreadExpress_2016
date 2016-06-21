@@ -15,10 +15,6 @@ class ApplicationController < ActionController::Base
     redirect_to home_path
   end
 
-  # if logged_in? && current_user.role?(:customer) # can guests have a cart?
-  # 	create_cart
-  # end
-  
   # private
   # Handling authentication
   def current_user

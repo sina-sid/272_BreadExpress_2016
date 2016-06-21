@@ -3,6 +3,8 @@ class ItemsController < ApplicationController
   before_action :check_login
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   authorize_resource
+
+  # carrierwave to upload photos
   
   def index
     @active_items = Item.active.alphabetical.paginate(:page => params[:page]).per_page(10)
@@ -17,8 +19,8 @@ class ItemsController < ApplicationController
   def show
     @current_price = @item.current_price
     if logged_in? && !current_user.role?(:customer)
-      @older_prices = Item.item_prices.chronological.paginate(:page => params[:page]).per_page(5)
-      @orders_including_item = Item.order_items.paginate(:page => params[:page]).per_page(5)
+      @price_history = @item.item_prices.chronological.paginate(:page => params[:page]).per_page(5)
+      @orders_including_item = @item.order_items.paginate(:page => params[:page]).per_page(5)
     end
   end
 

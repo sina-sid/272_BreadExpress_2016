@@ -1,0 +1,8 @@
+<div class="panel clearfix">
+  <h3>Price History</h3>
+  <ul>
+      <% @price_history.each do |item_price| %>
+        <li><%= number_to_currency item_price.price %></li>
+      <% end %>
+    </ul>
+</div>
