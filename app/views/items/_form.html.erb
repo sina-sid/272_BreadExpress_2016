@@ -1,8 +1,9 @@
-<%= simple_form_for @item, html: { class: 'form-horizontal' } do |f| %>
+<%= simple_form_for @item, html: { class: 'form-horizontal', multipart: true } do |f| %>
   <fieldset>
     <legend><%= controller.action_name.capitalize %> Item</legend>
 
-    <%= f.input :picture, input_html: {class: "avg"} %>
+<!--     <%= f.label :picture %><br />
+    <%= f.file_field :picture %> -->
     <%= f.input :name, input_html: {class: "avg"} %>
     <%= f.input :description, input_html: {class: "avg"} %>
     <%= f.input :category, collection: Item::CATEGORIES, input_html: {class: "avg"} %>

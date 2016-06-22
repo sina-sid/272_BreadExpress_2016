@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  # mount_uploader :picture, PictureUploader
   include ActionView::Helpers::NumberHelper
   before_action :check_login
   before_action :set_item, only: [:show, :edit, :update, :destroy]
@@ -18,6 +19,7 @@ class ItemsController < ApplicationController
 
   def show
     @current_price = @item.current_price
+    @similar_items = Item.active.alphabetical.for_category(@item.category)
     if logged_in? && !current_user.role?(:customer)
       @price_history = @item.item_prices.chronological.paginate(:page => params[:page]).per_page(5)
       @orders_including_item = @item.order_items.paginate(:page => params[:page]).per_page(5)

@@ -152,29 +152,29 @@ class Ability
       end
 
       # Can see active itemprices      
-      can :read, ItemPrices do |ip|
+      can :read, ItemPrice do |ip|
         ip.end_date.nil?
       end
 
       # ADDRESS
       # can create addresses for themselves
       can :create, Address do |a|
-      	a.customer_id == user.customer_id
+      	a.customer_id == user.customer.id
       end
 
       # can update addresses for themselves
       can :update, Address do |a|
-      	a.customer_id == user.customer_id
+      	a.customer_id == user.customer.id
       end
 
       # can see their addresses
       can :read, Address do |a|
-      	a.customer_id == user.customer_id
+      	a.customer_id == user.customer.id
       end
 
       # can destroy their addresses
       can :destroy, Address do |a|
-      	a.customer_id == user.customer_id
+      	a.customer_id == user.customer.id
       end
 
 
@@ -184,7 +184,7 @@ class Ability
     else
       # Can see current items, current item_prices
       can :read, Item
-      can :read, ItemPrices
+      can :read, ItemPrice
 
       can :create, Customer
       can :create, User

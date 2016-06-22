@@ -3,7 +3,11 @@
     <%= render :partial => "item_details" %>
   </div>
   <div class="small-5 columns">
-    <%= render :partial => "price_history" %>
+  	<% if logged_in? && !current_user.role?(:customer) %>
+      <%= render :partial => "price_history" %>
+    <% else %>
+      <%= render :partial => "similar_items" %>
+    <% end %>
   </div>
 </div>
 

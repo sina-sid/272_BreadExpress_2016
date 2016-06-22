@@ -1,3 +1,10 @@
+<!-- TO DO:
+      - Restructure navbar for admin
+      - Restructure navbar for customer
+      - Add User details page (for customer, this is a special version of customers, for employees, this is new)
+      - Add links for baker and shipper 
+-->
+
 <div class="contain-to-grid">
   <nav class="top-bar" data-topbar>
     <section class="top-bar-section">
@@ -7,13 +14,15 @@
         <% if !logged_in? %>
           <li><%= link_to "View Menu", items_path %></li>
         <% end %>
-        <% if logged_in? && (current_user.role?(:admin) || current_user.role?(:customer)) %>
+        <% if logged_in? %>
           <!-- options for orders -->
           <li class="has-dropdown">
             <%= link_to "Orders", orders_path %>
             <ul class="dropdown">
-              <li><%= link_to "My Orders", orders_path %></li>
-              <li><%= link_to "New Order", new_order_path %></li>
+              <li><%= link_to "View Orders", orders_path %></li>
+              <% if current_user.role?(:admin) %>
+                <li><%= link_to "New Order", new_order_path %></li>
+              <% end %>
             </ul>
           </li>
 
@@ -21,25 +30,34 @@
           <li class="has-dropdown">
             <%= link_to "Addresses", addresses_path %>
             <ul class="dropdown">
-              <li><%= link_to "My Addresses", addresses_path %></li>
-              <li><%= link_to "Add an Address", new_address_path %></li>
+              <li><%= link_to "View Addresses", addresses_path %></li>
+              <% if current_user.role?(:admin) %>
+                <li><%= link_to "Add an Address", new_address_path %></li>
+              <% end %>
             </ul>
           </li>
 
           <!-- options for customers -->
-          <li class="has-dropdown">
-            <%= link_to "Customer", customers_path %>
-            <ul class="dropdown">
-              <li><%= link_to "All Customers", customers_path %></li>
-            </ul>
-          </li>
+          <% if !current_user.role?(:customer) %>
+            <li class="has-dropdown">
+              <%= link_to "Customer", customers_path %>
+              <ul class="dropdown">
+                <li><%= link_to "All Customers", customers_path %></li>
+                <% if current_user.role?(:admin) %>
+                  <li><%= link_to "Add a Customer", new_customer_path %></li>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
 
           <!-- options for items -->
           <li class="has-dropdown">
             <%= link_to "Item", items_path %>
             <ul class="dropdown">
               <li><%= link_to "All Items", items_path %></li>
-              <li><%= link_to "Add an Item", new_item_path %></li>
+              <% if current_user.role?(:admin) %>
+                <li><%= link_to "Add an Item", new_item_path %></li>
+              <% end %>
             </ul>
           </li>
 

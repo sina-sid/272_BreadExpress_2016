@@ -1,7 +1,3 @@
-# TO DO: DOES SHOW METHOD UPDATE WITH EVERY ADDITION TO CART?
-# LOG OUT: DESTROY CART
-# DESTROY ORDER: CLEAR CART
-
 class OrdersController < ApplicationController
   include BreadExpressHelpers::Cart
   include BreadExpressHelpers::Shipping
@@ -81,7 +77,7 @@ class OrdersController < ApplicationController
 
   def destroy
     if logged_in? && current_user.role?(:customer)
-      destroy_cart #or clear_cart?
+      clear_cart?
     end
     @order.destroy
     redirect_to orders_url, notice: "This order was removed from the system."
