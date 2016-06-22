@@ -14,7 +14,7 @@
   <tbody>
     <% @cart_order_items.each do |order_item| %>
       <tr>
-        <td><%= order_item.item_id %></td>
+        <td><%= order_item.item.name %></td>
         <td>
           <%= order_item.quantity %>
         </td>

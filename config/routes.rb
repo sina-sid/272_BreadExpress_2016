@@ -33,6 +33,7 @@ BreadExpress::Application.routes.draw do
   root :to => 'home#home'  
   
   # Named routes
+  get 'add-to-cart/:id' => 'cart#add_to_cart', as: :add_to_cart
   
   
 
