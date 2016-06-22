@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="small-7 columns">
+    <%= render partial: "user_details" %>
+  </div>
+  <div class="small-5 columns">
+  </div>
+</div>
+
+<%= link_to(edit_customer_path(@customer), class: 'button radius') do %>
+<!-- <i class="fa fa-pencil"></i> -->
+&nbsp;<%= "Edit Profile" %>
+<% end %>

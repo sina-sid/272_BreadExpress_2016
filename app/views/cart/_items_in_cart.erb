@@ -18,8 +18,12 @@
         <td>
           <%= order_item.quantity %>
         </td>
-        <td><%= number_to_currency 123 %></td>      
+        <td><%= number_to_currency order_item.item.current_price %></td>      
         <td>
+          <%= link_to(remove_from_cart_path(order_item.item.id), method: 'get', class: 'button radius alert') do %>
+            <!-- <i class="fa fa-trash-o"></i> -->
+            &nbsp;<%= "Remove" %>
+          <% end %>
         </td>
       </tr>
     <% end %>

@@ -1,0 +1,31 @@
+<% if current_user.role? :customer %>
+
+	<h3><%= @customer.proper_name %></h3>
+
+	<p>
+	  <b>Phone</b>: <%= number_to_phone @customer.phone %>
+	</p>
+
+	<p>
+	  <b>Email</b>: <%= mail_to @customer.email, @customer.email, encode: "javascript" %>
+	</p>
+
+	<p>
+	  <b>Username</b>: <%= @customer.user.username %>
+	</p>
+
+	<p>
+	  <em>A Bread Express customer since <%= @customer.created_at.year %>.</em>
+	</p>
+
+<% else %>
+	<h3>Your Profile</h3>
+
+	<p>
+	  <b>Username</b>: <%= current_user.username %>
+	</p>
+
+	<p>
+	  <b>Role</b>: <%= current_user.role %>
+	</p>
+<% end %>

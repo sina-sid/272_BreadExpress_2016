@@ -4,6 +4,13 @@ class OrdersController < ApplicationController
   before_action :check_login
   before_action :set_order, only: [:show, :update, :destroy]
   authorize_resource
+
+  def checkout
+    if logged_in? && current_user.role?(:customer)
+      save_each_item_in_cart(@order)
+      clear_cart
+    end
+  end
   
   def index
     if logged_in? && !current_user.role?(:customer)
@@ -15,36 +22,9 @@ class OrdersController < ApplicationController
     end 
   end
 
-  def create_empty_cart
-    if logged_in? && current_user.role?(:customer)
-      create_cart
-    end
-  end
-
-  def add_item_to_cart
-  end
-
-  def remove_from_cart
-  end
-
-  def view_cart
-    # should do this in checkout
-    @cart_items = get_list_of_items_in_cart
-    @total_cost = calculate_cart_items_cost
-    @shipping_costs = calculate_cart_shipping
-  end
-
-  def checkout
-    if logged_in? && current_user.role?(:customer)
-      save_each_item_in_cart(@order)
-      clear_cart
-    end
-  end
-
   def show
     @order_items = @order.order_items.to_a
     if logged_in? && current_user.role?(:customer)
-      # view_cart
       @previous_orders = current_user.customer.orders.chronological.to_a
     elsif logged_in?
       @previous_orders = @order.customer.orders.chronological.to_a
@@ -52,11 +32,12 @@ class OrdersController < ApplicationController
   end
 
   def new
+    create_empty_cart if logged_in? && current_user.role?(:customer)
+    # breads, pastries and stuff
   end
 
   def create
     @order = Order.new(order_params)
-    create_empty_cart
     if @order.save
       checkout
       redirect_to @order, notice: "Thank you for ordering from Bread Express."
@@ -67,7 +48,6 @@ class OrdersController < ApplicationController
 
   def update
     # is_editable?
-    # to do, find ways to figure out what update has been made to the cart and call fns accordingly
     if @order.update(order_params)
       redirect_to @order, notice: "Your order was revised in the system."
     else
@@ -76,9 +56,7 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    if logged_in? && current_user.role?(:customer)
-      clear_cart?
-    end
+    clear_cart if logged_in? && current_user.role?(:customer)
     @order.destroy
     redirect_to orders_url, notice: "This order was removed from the system."
   end
