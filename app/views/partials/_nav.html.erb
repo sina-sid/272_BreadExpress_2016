@@ -60,30 +60,31 @@
               <% end %>
             </ul>
           </li>
+          </ul>
 
-          <!-- cart -->
-          <% if current_user.role?(:customer) %>
-            <li><%= link_to "Cart", cart_path %></li>
-          <% end %>
+          <ul class="right">
+          <div class="top-bar-right">
 
-          <!-- options for users -->
-          <li class="has-dropdown">
-            <% if !current_user.role?(:customer) %>
-              <%= link_to "Welcome #{current_user.username}!", user_path(current_user) %>
+            <!-- options for users -->
+            <li class="has-dropdown">
+              <% if !current_user.role?(:customer) %>
+                <%= link_to "Welcome #{current_user.username}!", user_path(current_user) %>
+              <% else %>
+                <%= link_to "Welcome #{current_user.customer.first_name}!", user_path(current_user) %>
+              <% end %>
               <ul class="dropdown">
-              <li><%= link_to "Your Profile", user_path(current_user) %></li>
-            <% else %>
-              <%= link_to "Welcome #{current_user.customer.first_name}!", user_path(current_user) %>
-              <ul class="dropdown">
-              <li><%= link_to "Your Profile", user_path(current_user) %></li>
+                <li><%= link_to "Your Profile", user_path(current_user) %></li>
+                <li><%= link_to "Logout", logout_path %></li>
+              </ul>
+            </li>
+
+            <!-- cart -->
+            <% if current_user.role?(:customer) %>
+              <li><%= link_to "Cart", cart_path %></li>
             <% end %>
-            <li><%= link_to "Logout", logout_path %></li>
-            </ul>
-            
-          </li>
 
 
-
+          </div>
 
         <% end %>
 
