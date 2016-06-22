@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
 
   def view_cart
     # should do this in checkout
-    @cart_items = get_list_of_items_in_cart.paginate(:page => params[:page]).per_page(10)
+    @cart_items = get_list_of_items_in_cart
     @total_cost = calculate_cart_items_cost
     @shipping_costs = calculate_cart_shipping
   end
@@ -44,7 +44,7 @@ class OrdersController < ApplicationController
   def show
     @order_items = @order.order_items.to_a
     if logged_in? && current_user.role?(:customer)
-      view_cart
+      # view_cart
       @previous_orders = current_user.customer.orders.chronological.to_a
     elsif logged_in?
       @previous_orders = @order.customer.orders.chronological.to_a

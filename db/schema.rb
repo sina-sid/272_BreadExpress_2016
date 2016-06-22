@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141223145336) do
+ActiveRecord::Schema.define(version: 20160622030419) do
 
   create_table "addresses", force: true do |t|
     t.integer  "customer_id"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20141223145336) do
     t.boolean  "active",         default: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "photo"
   end
 
   create_table "order_items", force: true do |t|

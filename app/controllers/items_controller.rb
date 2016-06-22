@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-  # mount_uploader :picture, PictureUploader
   include ActionView::Helpers::NumberHelper
   before_action :check_login
   before_action :set_item, only: [:show, :edit, :update, :destroy]
@@ -62,6 +61,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :description, :picture, :category, :units_per_item, :weight, :active)
+    params.require(:item).permit(:name, :description, :picture, :photo, :category, :units_per_item, :weight, :active)
   end
 end

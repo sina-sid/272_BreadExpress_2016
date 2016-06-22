@@ -1,0 +1,29 @@
+<% if @cart_order_items.empty? %>
+  <p><em>There are no items in your cart.</em></p>
+<% else %>
+<h2>Cart</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Units</th>
+      <th>Price</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cart_order_items.each do |order_item| %>
+      <tr>
+        <td><%= order_item.item_id %></td>
+        <td>
+          <%= order_item.quantity %>
+        </td>
+        <td><%= number_to_currency 123 %></td>      
+        <td>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<p>&nbsp;</p>

@@ -61,6 +61,11 @@
             </ul>
           </li>
 
+          <!-- cart -->
+          <% if current_user.role?(:customer) %>
+            <li><%= link_to "Cart", cart_path %></li>
+          <% end %>
+
 
 
         <% end %>

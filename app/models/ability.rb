@@ -94,7 +94,7 @@ class Ability
 
       # ORDER 
       can :manage, Order do |o|
-        o.order.customer_id == user.customer.id
+        o.customer_id == user.customer.id
       end
 
       # can create orders for themselves

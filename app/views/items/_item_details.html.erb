@@ -1,5 +1,5 @@
 <h3>Item Details</h3>
-<!-- picture code here -->
+
 <p>
   <b>Name</b>: <%= @item.name %>
 </p>
@@ -9,7 +9,7 @@
 </p>
 
 <p>
-  <b>Current Price</b>: <%= @item.current_price %>
+  <b>Current Price</b>: <%= number_to_currency @item.current_price %>
 </p>
 
 <p>
