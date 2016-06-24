@@ -7,6 +7,7 @@ BreadExpress::Application.routes.draw do
   resources :items 
   resources :sessions
   resources :users
+  resources :item_prices
   # resources :cart do
   #   get 'add_to_cart' => 'cart#show', as: :add_to_cart, on: :collection
   # end
@@ -36,6 +37,7 @@ BreadExpress::Application.routes.draw do
   # Named routes
   get 'add-to-cart/:id' => 'cart#add_to_cart', as: :add_to_cart
   get 'remove-from-cart/:id' => 'cart#remove_from_cart', as: :remove_from_cart
+  # get 'new/:id' => 'item_prices#new', as: :new_item_price
   
   
 

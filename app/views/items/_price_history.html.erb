@@ -7,4 +7,13 @@
 	      <% end %>
 	    </ul>
 	</div>
+
+	<% if can? :update, @current_price %>
+	  <%= link_to(new_item_price_path(@item), class: 'button radius') do %>
+	    <!-- <i class="fa fa-pencil"></i> -->
+	    &nbsp;<%= "Update Price" %>
+	  <% end %>
+	  &nbsp;&nbsp;
+	<% end %>
+    
 <% end %>

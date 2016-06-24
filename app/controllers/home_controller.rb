@@ -30,6 +30,7 @@ class HomeController < ApplicationController
   def contact
   end
 
+  private
   def baking_lists
   	@bread_list = create_baking_list_for("bread")
   	@pastries_list = create_baking_list_for("pastries")

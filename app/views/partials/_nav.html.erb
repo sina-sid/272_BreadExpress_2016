@@ -11,9 +11,11 @@
       <ul class="left">
         <!-- link to home -->
         <li><%= link_to "Home", home_path %></li>
+        
         <% if !logged_in? %>
           <li><%= link_to "View Menu", items_path %></li>
         <% end %>
+
         <% if logged_in? %>
           <!-- options for orders -->
           <li class="has-dropdown">
