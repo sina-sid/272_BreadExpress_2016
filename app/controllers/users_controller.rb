@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   
   def show
     @customer = current_user.customer
+    set_user
   end
 
   def new

@@ -1,15 +1,19 @@
-<%= simple_form_for @item, html: { class: 'form-horizontal', multipart: true } do |f| %>
+<%= simple_nested_form_for @item, html: { class: 'form-horizontal', multipart: true } do |f| %>
   <fieldset>
     <legend><%= controller.action_name.capitalize %> Item</legend>
 
-    <%= f.label :photo %><br />
-    <%= f.file_field :photo %>
+    <%= f.label :photo, input_html: {class: "avg"} %>
+    <%= f.file_field :photo, input_html: {class: "avg"} %>
     <%= f.input :name, input_html: {class: "avg"} %>
     <%= f.input :description, input_html: {class: "avg"} %>
     <%= f.input :category, collection: Item::CATEGORIES, input_html: {class: "avg"} %>
     <%= f.input :weight, input_html: {class: "avg"} %>
     <%= f.input :units_per_item, input_html: {class: "avg"} %>
     <%= f.input :active %>
+
+    <%= f.simple_fields_for :item_prices do |g| %>
+      <%= g.input :price, input_html: {class: "avg"} %>
+    <% end %> 
 
 
     <div class="form-actions">

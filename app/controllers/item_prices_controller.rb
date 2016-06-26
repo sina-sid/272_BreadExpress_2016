@@ -26,7 +26,7 @@ class ItemPricesController < ApplicationController
     @item_price = ItemPrice.new(item_price_params)
     @item_price.start_date = Date.today
     if @item_price.save
-      redirect_to @item_price, notice: "A new price for #{@item_price.item.name} was added to the system."
+      redirect_to @item_price.item, notice: "A new price for #{@item_price.item.name} was added to the system."
     else
       render action: 'new'
     end

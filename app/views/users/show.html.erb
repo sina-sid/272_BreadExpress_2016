@@ -6,7 +6,14 @@
   </div>
 </div>
 
-<%= link_to(edit_customer_path(@customer), class: 'button radius') do %>
-<!-- <i class="fa fa-pencil"></i> -->
-&nbsp;<%= "Edit Profile" %>
+<% if current_user.role?(:customer) %>
+  <%= link_to(edit_customer_path(@customer), class: 'button radius') do %>
+    &nbsp;<%= "Edit Profile" %>
+  <% end %>
+<% else %>
+  <%= link_to(edit_user_path(@user), class: 'button radius') do %>
+    &nbsp;<%= "Edit Profile" %>
+  <% end %>
 <% end %>
+
+<!-- <i class="fa fa-pencil"></i> -->

@@ -1,7 +1,6 @@
 <!-- TO DO:
       - Restructure navbar for admin
       - Restructure navbar for customer
-      - Add User details page (for customer, this is a special version of customers, for employees, this is new)
       - Add links for baker and shipper 
 -->
 
@@ -14,92 +13,90 @@
         
         <% if !logged_in? %>
           <li><%= link_to "View Menu", items_path %></li>
-        <% end %>
 
-        <% if logged_in? %>
+        <!-- ADMIN ONLY NAVBAR OPTIONS-->
+
+        <% elsif logged_in? && current_user.role?(:admin) %>
           <!-- options for orders -->
-          <li class="has-dropdown">
-            <%= link_to "Orders", orders_path %>
-            <ul class="dropdown">
-              <li><%= link_to "View Orders", orders_path %></li>
-              <% if current_user.role?(:admin) %>
-                <li><%= link_to "New Order", new_order_path %></li>
-              <% end %>
-            </ul>
-          </li>
-
-          <!-- options for addresses -->
-          <li class="has-dropdown">
-            <%= link_to "Addresses", addresses_path %>
-            <ul class="dropdown">
-              <li><%= link_to "View Addresses", addresses_path %></li>
-              <% if current_user.role?(:admin) %>
-                <li><%= link_to "Add an Address", new_address_path %></li>
-              <% end %>
-            </ul>
-          </li>
-
-          <!-- options for customers -->
-          <% if !current_user.role?(:customer) %>
-            <li class="has-dropdown">
-              <%= link_to "Customer", customers_path %>
-              <ul class="dropdown">
-                <li><%= link_to "All Customers", customers_path %></li>
-                <% if current_user.role?(:admin) %>
-                  <li><%= link_to "Add a Customer", new_customer_path %></li>
-                <% end %>
-              </ul>
-            </li>
-          <% end %>
-
+          <li><%= link_to "Orders", orders_path %></li>
           <!-- options for items -->
           <li class="has-dropdown">
             <%= link_to "Item", items_path %>
             <ul class="dropdown">
               <li><%= link_to "All Items", items_path %></li>
-              <% if current_user.role?(:admin) %>
-                <li><%= link_to "Add an Item", new_item_path %></li>
-              <% end %>
+              <li><%= link_to "Add an Item", new_item_path %></li>
             </ul>
           </li>
-          </ul>
+          <!-- options for customers -->
+          <li class="has-dropdown">
+            <%= link_to "Customers", customers_path %>
+            <ul class="dropdown">
+              <li><%= link_to "All Customers", customers_path %></li>
+              <li><%= link_to "Add a Customer", new_customer_path %></li>
+            </ul>
+          </li>
+          <!-- options for addresses -->
+          <li class="has-dropdown">
+            <%= link_to "Addresses", addresses_path %>
+            <ul class="dropdown">
+              <li><%= link_to "View Addresses", addresses_path %></li>
+              <li><%= link_to "Add an Address", new_address_path %></li>
+            </ul>
+          </li>
 
-          <ul class="right">
-          <div class="top-bar-right">
+        <!-- BAKER AND SHIPPER NAVBARS -->
+        <% elsif logged_in? && (current_user.role?(:baker) || current_user.role?(:shipper)) %>
+          <!-- options for orders -->
+          <li><%= link_to "Orders", orders_path %></li>
+          <!-- options for items -->
+          <li><%= link_to "Items", items_path %></li>
+          <!-- options for customers -->
+          <li><%= link_to "Customers", customers_path %></li>
+          <!-- options for addresses -->
+          <li><%= link_to "Addresses", addresses_path %></li>
+
+        <!-- CUSTOMER NAVBAR -->
+        <% elsif logged_in? && current_user.role?(:customer) %>
+          <!-- options for items -->
+          <li><%= link_to "Shop", items_path %></li>
+          <!-- options for orders -->
+          <li><%= link_to "Your Orders", orders_path %></li>
+          <!-- options for addresses -->
+          <li><%= link_to "Your Addresses", addresses_path %></li>
+            
+
+
+        <% end %>
+      </ul>
+
+      <ul class="right">
+        <div class="top-bar-right">
 
             <!-- options for users -->
             <li class="has-dropdown">
-              <% if !current_user.role?(:customer) %>
+              <% if logged_in? && !current_user.role?(:customer) %>
                 <%= link_to "Welcome #{current_user.username}!", user_path(current_user) %>
-              <% else %>
+                <ul class="dropdown">
+                  <li><%= link_to "Your Profile", user_path(current_user) %></li>
+                  <li><%= link_to "Logout", logout_path %></li>
+                </ul>
+              <% elsif logged_in? && current_user.role?(:customer) %>
                 <%= link_to "Welcome #{current_user.customer.first_name}!", user_path(current_user) %>
+                <ul class="dropdown">
+                  <li><%= link_to "Your Profile", user_path(current_user) %></li>
+                  <li><%= link_to "Logout", logout_path %></li>
+                </ul>
               <% end %>
-              <ul class="dropdown">
-                <li><%= link_to "Your Profile", user_path(current_user) %></li>
-                <li><%= link_to "Logout", logout_path %></li>
-              </ul>
             </li>
 
             <!-- cart -->
-            <% if current_user.role?(:customer) %>
+            <% if logged_in? && current_user.role?(:customer) %>
               <li><%= link_to "Cart", cart_path %></li>
             <% end %>
 
 
-          </div>
-
-        <% end %>
-
-        <!-- ADMIN ONLY OPTIONS -->
-
-
-
-
-
-
-
-
-
+        </div>
+      </ul>
     </section>
   </nav>
 </div>

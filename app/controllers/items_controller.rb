@@ -27,6 +27,7 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
+    item_price = @item.item_prices.build
 
   end
 
@@ -52,7 +53,7 @@ class ItemsController < ApplicationController
 
   def destroy
     @item.destroy
-    redirect_to addresss_url, notice: "#{item.name} was removed from the system."
+    redirect_to items_path, notice: "#{item.name} was removed from the system."
   end
 
   private

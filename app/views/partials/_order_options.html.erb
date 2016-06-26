@@ -1,0 +1,27 @@
+<% if logged_in? %>
+  <% opt = "#{object.respond_to?(:name) ? object.name : model_name.capitalize }" %>
+
+  <div class="form-actions">
+    <%= link_to(eval("#{model_name.pluralize}_path"), class: 'button radius') do %>
+      <!-- <i class="fa fa-list"></i> -->
+      &nbsp;Display All <%= model_name.pluralize.capitalize %>
+    <% end %>
+    &nbsp;&nbsp;
+    
+    
+    <% if @order.is_editable? && (current_user.role?(:admin) || current_user.role?(:customer)) %>
+      <%= link_to(eval("#{model_name}_path(object)"), method: 'delete', data: {confirm: "Are you sure you want to permanently delete #{opt}"}, class: 'button radius alert') do %>
+        <!-- <i class="fa fa-trash-o"></i> -->
+        &nbsp;<%= "Delete #{opt}" %>
+      <% end %>
+    <% end %>
+
+    <% if current_user.role?(:customer) && model_name == 'item'%>
+      <%= link_to(add_to_cart_path(@item.id), method: 'get', class: 'button radius alert') do %>
+        <!-- <i class="fa fa-trash-o"></i> -->
+        &nbsp;<%= "Add to Cart" %>
+      <% end %>
+    <% end %>
+  </div>
+
+<% end %>

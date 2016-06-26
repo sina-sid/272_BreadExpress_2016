@@ -6,7 +6,6 @@
 
         <%= f.input :item_id, collection: Item.alphabetical, include_blank: true, input_html: {class: "avg"} %>
         <%= f.input :price, input_html: {class: "avg"} %>
-        <%# f.input :start_date, as: :string, disbled: true, input_html: { class: "avg" } %>
 
         <div class="form-actions">
           <%= f.submit nil, :class => 'button radius' %>

@@ -3,13 +3,14 @@
 	  <h3>Price History</h3>
 	  <ul>
 	      <% @price_history.each do |item_price| %>
-	        <li><%= number_to_currency item_price.price %></li>
+	      	<% end_date = item_price.end_date.nil? ? "Current" : humanize_date(item_price.end_date)%>
+	        <li><%= "#{humanize_date(item_price.start_date)} - #{end_date}: #{number_to_currency(item_price.price)}" %></li>
 	      <% end %>
 	    </ul>
 	</div>
 
 	<% if can? :update, @current_price %>
-	  <%= link_to(new_item_price_path(@item), class: 'button radius') do %>
+	  <%= link_to(new_item_price_path(@item.id), class: 'button radius') do %>
 	    <!-- <i class="fa fa-pencil"></i> -->
 	    &nbsp;<%= "Update Price" %>
 	  <% end %>
