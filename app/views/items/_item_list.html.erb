@@ -22,6 +22,11 @@
             <%= link_to(edit_item_path(item), class: 'button tiny radius warning') do %>
               &nbsp;Edit&nbsp;
             <% end %>
+          <% elsif logged_in? && current_user.role?(:customer) %>
+            <%= link_to(add_to_cart_path(item.id), method: 'get', class: 'button radius alert') do %>
+              <!-- <i class="fa fa-trash-o"></i> -->
+              &nbsp;<%= "Add to Cart" %>
+            <% end %>
           <% end %>
         </td>
       </tr>
