@@ -7,9 +7,9 @@
     <%= f.input :email, input_html: {class: "avg"} %>
 
     <%= f.simple_fields_for :user do |g| %>
-      <%= g.input :username %>
-      <%= g.input :password %>
-      <%= g.input :password_confirmation %>
+      <%= g.input :username, input_html: {class: "avg"} %>
+      <%= g.input :password, input_html: {class: "avg"} %>
+      <%= g.input :password_confirmation, input_html: {class: "avg"} %>
    <% end %>   
 
 
