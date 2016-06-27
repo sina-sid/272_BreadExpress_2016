@@ -29,15 +29,15 @@ BreadExpress::Application.routes.draw do
   get 'privacy' => 'home#privacy', as: :privacy
   get 'search' => 'home#search', as: :search
   get 'cylon' => 'errors#cylon', as: :cylon
-  get 'cart' => 'cart#show', as: :cart
   
   # Set the root url
   root :to => 'home#home'  
   
   # Named routes
-  get 'add-to-cart/:id' => 'cart#add_to_cart', as: :add_to_cart
-  get 'remove-from-cart/:id' => 'cart#remove_from_cart', as: :remove_from_cart
-  get 'checkout' => 'orders#checkout', as: :checkout
+  get 'cart' => 'orders#view_cart', as: :cart
+  get 'add-to-cart/:id' => 'orders#add_to_cart', as: :add_to_cart
+  get 'remove-from-cart/:id' => 'orders#remove_from_cart', as: :remove_from_cart
+  get 'checkout' => 'orders#new', as: :checkout
   # get 'new/:id' => 'item_prices#new', as: :new_item_price
   
   

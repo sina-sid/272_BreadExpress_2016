@@ -5,14 +5,35 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :update, :destroy]
   authorize_resource
 
+  # CART METHODS
+
+  def view_cart
+    @cart_order_items = get_list_of_items_in_cart
+    @shipping_costs = calculate_cart_shipping
+    @subtotal = calculate_cart_items_cost
+    @grand_total = @shipping_costs + @subtotal
+  end
+
+  def add_to_cart
+    add_item_to_cart(params[:id])
+    redirect_to cart_url, notice: "Added to cart!"
+  end
+
+  def remove_from_cart
+    remove_item_from_cart(params[:id])
+    redirect_to cart_url, notice: "Removed from cart!"
+  end
+
+
   def checkout
     if logged_in? && current_user.role?(:customer)
-      @order = Order.new(order_params)
       save_each_item_in_cart(@order)
       clear_cart
     end
   end
-  
+
+  # REGULAR ORDER METHODS
+
   def index
     if logged_in? && !current_user.role?(:customer)
       @pending_orders = Order.not_shipped.chronological.paginate(:page => params[:page]).per_page(5)
@@ -33,13 +54,15 @@ class OrdersController < ApplicationController
   end
 
   def new
-    create_empty_cart if logged_in? && current_user.role?(:customer)
-    # breads, pastries and stuff
+    create_cart if logged_in? && current_user.role?(:customer)
+    @order = Order.new
   end
 
   def create
     @order = Order.new(order_params)
+    create_cart if logged_in? && current_user.role?(:customer)
     if @order.save
+      checkout
       redirect_to @order, notice: "Thank you for ordering from Bread Express."
     else
       render action: 'new'
