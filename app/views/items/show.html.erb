@@ -6,7 +6,7 @@
   	<% if logged_in? && !current_user.role?(:customer) %>
       <%= render :partial => "price_history" %>
     <% else %>
-      <%= render :partial => "similar_items" %>
+      <%= render :partial => "similar_items", locals: {object: @item} %>
     <% end %>
   </div>
 </div>

@@ -7,6 +7,7 @@ class OrdersController < ApplicationController
 
   def checkout
     if logged_in? && current_user.role?(:customer)
+      @order = Order.new(order_params)
       save_each_item_in_cart(@order)
       clear_cart
     end
@@ -39,7 +40,6 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     if @order.save
-      checkout
       redirect_to @order, notice: "Thank you for ordering from Bread Express."
     else
       render action: 'new'
