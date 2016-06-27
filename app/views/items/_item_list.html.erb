@@ -1,40 +1,34 @@
 <% if items.empty? %>
   <p><em>There are no <%= state %> items at this time.</em></p>
 <% else %>
-<h2>Available Items</h2><center>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Units</th>
-      <th>&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% items.each do |item| %>
-      <tr>
-        <td><%= link_to image_tag(item.photo_url, width: '200'), item_path(item) %></td>
-        <td><%= link_to item.name, item_path(item) %></td>
-        <td><%= number_to_currency item.current_price %></td>
-        <td><%= item.units_per_item %> <%= item.category%></td>      
-        <td>
-          <% if logged_in? && current_user.role?(:admin) %>
-            <%= link_to(edit_item_path(item), class: 'button tiny radius warning') do %>
-              &nbsp;Edit&nbsp;
-            <% end %>
-          <% elsif logged_in? && current_user.role?(:customer) %>
-            <%= link_to(add_to_cart_path(item.id), method: 'get', class: 'button radius alert') do %>
-              <!-- <i class="fa fa-trash-o"></i> -->
-              &nbsp;<%= "Add to Cart" %>
-            <% end %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table></center>
+<h2>Available Items</h2>
+  <% items.each do |item| %>
+  <div class="small-4 columns">
+    <div class="card">
+    <div class="image">
+    <%= link_to image_tag(item.photo), item_path(item) %></div>
+    <div class="content">
+      <%= item.name %>&nbsp;&nbsp;
+      <b><%= number_to_currency item.current_price %></b><br><br>
+      <%= item.units_per_item %> <%= item.category == 'bread' ? 'loaf' : item.category %></div>
+    <div class="action"><center>
+      <% if logged_in? && current_user.role?(:admin) %>
+        <%= link_to(edit_item_path(item), class: 'button radius warning') do %>
+          &nbsp;Edit&nbsp;
+        <% end %>
+        <%= link_to(new_item_price_path, class: 'button radius warning') do %>
+          &nbsp;Edit Price&nbsp;
+        <% end %>
+      <% elsif logged_in? && current_user.role?(:customer) %>
+        <%= link_to(add_to_cart_path(item.id), method: 'get', class: 'button radius alert') do %>
+          <!-- <i class="fa fa-trash-o"></i> -->
+          &nbsp;<%= "Add to Cart" %>
+        <% end %>
+      <% end %>
+    </center></div>
+    </div><br><br>
+  </div>
+  <% end %>
 <%= will_paginate items, previous_label: "Previous&nbsp;", next_label: "&nbsp;Next" %>  
 <% end %>
 <p>&nbsp;</p>
