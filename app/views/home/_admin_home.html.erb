@@ -1,6 +1,39 @@
-
-
 <div class="row"><br>
+  <div class="small-6 columns">
+    <div class="panel clearfix">
+    <center><h1><%= link_to number_to_currency(@total_revenue), orders_path %></h1>
+    <h5>Total revenue generated via paid orders</h5></center>
+    </div>
+  </div>
+  <div class="small-6 columns">
+    <div class="panel clearfix">
+    <center><h1><%= link_to @num_active_customers, customers_path %></h1>
+    <h5>Number of active Bread Express customers</h5></center>
+    </div>
+  </div> 
+</div>
+<div class="row">
+  <div class="small-4 columns">
+    <div class="panel clearfix">
+    <center><h1><%= link_to @num_orders_in_last_month, orders_path %></h1>
+    <h5>Number of orders placed in the last month</h5></center>
+    </div>
+  </div>
+  <div class="small-4 columns">
+    <div class="panel clearfix">
+    <center><h1><%= link_to @num_unpaid_orders, orders_path %></h1>
+    <h5>Number of orders placed that still haven't been paid for</h5></center>
+    </div>
+  </div>
+  <div class="small-4 columns">
+    <div class="panel clearfix">
+    <center><h1><%= link_to @num_unshipped_orders, orders_path %></h1>
+    <h5>Number of orders placed that need to be shipped</h5></center>
+    </div>
+  </div>
+</div>
+
+<div class="row">
   <h2>Newest Additions</h2><br>
   <% @newest_items.each do |item| %>
   <div class="small-3 columns">

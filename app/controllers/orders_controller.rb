@@ -56,6 +56,7 @@ class OrdersController < ApplicationController
   def new
     create_cart if logged_in? && current_user.role?(:customer)
     @order = Order.new
+    view_cart
   end
 
   def create

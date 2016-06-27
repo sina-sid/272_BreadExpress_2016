@@ -1,1 +1,53 @@
+<div class="row"><br>
+  <div class="small-7 columns">
+    <h3>Order Summary</h3><br>
+    <table class="table table-striped">
+	  <thead>
+	    <tr>
+	      <th>&nbsp;</th>
+	      <th>Name</th>
+	      <th>Units</th>
+	      <th>Price</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <% @cart_order_items.each do |order_item| %>
+	      <tr>
+	      	<td><%= image_tag(order_item.item.photo, width: 50) %>
+	        <td><%= order_item.item.name %></td>
+	        <td>
+	          <%= order_item.quantity %>
+	        </td>
+	        <td><%= number_to_currency order_item.item.current_price %></td>      
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+  </div>
+  <div class="small-5 columns">
+    <% unless @cart_order_items.empty? %>
+	  <div class="panel clearfix">
+	    
+	    <table>
+	      <thead></thead>
+	      <tbody>
+	        <tr>
+	          <td width="300">Subtotal</td>
+	          <td><%= number_to_currency @subtotal %></td>
+	        </tr>
+	        <tr>
+	          <td width="300">Shipping Costs</td>
+	          <td><%= number_to_currency @shipping_costs %></td>
+	        </tr>
+	        <tr>
+	          <td width="300"><b>Grand Total</b></td>
+	          <td><b><%= number_to_currency @grand_total %></b></td>
+	        </tr>
+	    </table>
+	    <%# render partial: "partials/cart_options", locals: {model_name: "order", object: @order}  %>
+	  </div>
+	<% end %>
+
+  </div>
+</div>
 <%= render :partial => "partials/display_form" %>

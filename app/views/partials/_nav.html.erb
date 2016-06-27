@@ -3,7 +3,7 @@
     <section class="top-bar-section">
       <ul class="left">
         <!-- link to home -->
-        <li><%= link_to "Home", home_path %></li>
+        <li><%= link_to image_tag("logo.png", width: '150'), home_path %></li>
         
         <% if !logged_in? %>
           <li><%= link_to "View Menu", items_path %></li>

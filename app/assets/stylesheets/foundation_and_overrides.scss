@@ -1123,7 +1123,7 @@ $table-margin-bottom: rem-calc(25);
 // $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-$topbar-bg-color: #f9ca97;
+$topbar-bg-color: #335E82;
 // $topbar-bg: $topbar-bg-color;
 
 // Height and margin
@@ -1246,13 +1246,13 @@ $topbar-link-bg-hover: #934F49; // #0F73D6;
   margin-top: 15px;
   padding-top: 0px;
   padding-bottom: 15px;
-  background-color:#f9ca97;
-  color: #934F49;
+  background-color:#335E82;
+  color: #fff;
   text-align: center;
 }
 
 #footer a {
-  color: #934F49;
+  color: #fff;
   text-decoration: none;
 }
 

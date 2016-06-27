@@ -9,6 +9,7 @@ class HomeController < ApplicationController
       @num_unshipped_items = OrderItem.unshipped.count
       @num_unshipped_orders = Order.not_shipped.count
       @num_active_customers = Customer.active.count
+      @num_orders_in_last_month = Order.where('created_at >= ?', 1.month.ago.to_datetime).count
   	  # how many of each item is being ordered (popularity)
   	  # recently updated prices?
   	elsif logged_in? && current_user.role?(:baker)

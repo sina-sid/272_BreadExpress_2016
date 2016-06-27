@@ -1,18 +1,14 @@
 <% unless @cart_order_items.empty? %>
   <div class="panel clearfix">
-    
+    <h4>Payment Details</h4><br>
     <table>
-      <thead>
-        <tr>
-          <th><h4>Payment Details</h4></th>
-          <th>&nbsp;</th>
-        </tr>
+      <thead></thead>
+      <tbody>
         <tr>
           <td width="300">Subtotal</td>
           <td><%= number_to_currency subtotal %></td>
         </tr>
-      </thead>
-      <tbody>
+
         <tr>
           <td width="300">Shipping Costs</td>
           <td><%= number_to_currency shipping %></td>

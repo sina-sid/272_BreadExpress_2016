@@ -53,7 +53,7 @@ class ItemsController < ApplicationController
 
   def destroy
     @item.destroy
-    redirect_to items_path, notice: "#{item.name} was removed from the system."
+    redirect_to items_path, notice: "#{@item.name} was removed from the system."
   end
 
   private
