@@ -1,7 +1,7 @@
 <div class="row">
   <div class="card">
 	<div class="image">
-	  <%= image_tag "title.jpg" %>
+	  <%= link_to image_tag("title.jpg"), items_path %>
 	  <span class="title"><h1 style="color:white;">
 	    <%= "Welcome back, #{current_user.customer.first_name}!"%></h1></span>
 	</div>
@@ -18,7 +18,7 @@
 	  <div class="image">
 		<%= link_to image_tag(item.photo), item_path(item) %></div>
 	  <div class="content">
-	    <%= item.name %>
+	    <%= "#{item.name} (#{number_to_currency item.current_price})" %>
 	  </div>
 	</div>
   </div>

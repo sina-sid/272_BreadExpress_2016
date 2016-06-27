@@ -1,7 +1,14 @@
 <div class="row">
   <div class="small-7 columns">
     <%= render :partial => "items_in_cart" %>
-    <%= render :partial => "partials/cart_options" %>
+    <% if @cart_order_items.empty? %>
+      <%= link_to(items_path, class: 'button radius') do %>
+	  <!-- <i class="fa fa-list"></i> -->
+	    &nbsp;Browse Menu
+	  <% end %>
+    <% else %>
+      <%= render :partial => "partials/cart_options" %>
+    <% end %>
   </div>
   <div class="small-5 columns">
     <%= render :partial => "order_costs" , locals: {cart: @cart_order_items, subtotal: @subtotal, shipping: @shipping_costs, grand_total: @grand_total} %>

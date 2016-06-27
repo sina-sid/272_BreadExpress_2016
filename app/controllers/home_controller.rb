@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   def home
   	if logged_in? && current_user.role?(:admin)
       @total_revenue = calculate_total_revenue
-      @newest_items = Item.order(:created_at).limit(4)
+      @newest_items = Item.order(created_at: :desc).limit(4)
       @num_unpaid_orders = Order.where(payment_receipt: nil).count
       @num_unshipped_items = OrderItem.unshipped.count
       @num_unshipped_orders = Order.not_shipped.count
@@ -31,6 +31,10 @@ class HomeController < ApplicationController
   end
 
   def contact
+  end
+
+  def remove_from_baking_list(list, name)
+    list.delete(name)
   end
 
   private
