@@ -7,4 +7,9 @@ module ApplicationHelper
     end
     addresses.map{|addr| ["#{addr.recipient} : #{addr.street_1}", addr.id] }
   end
+
+  def get_customer_addresses
+  	addresses = Address.where("customer_id = ?", current_user.customer.id).active
+  	menu_options = addresses.map{|a| ["#{a.recipient}: #{a.street_1}", a.id]}
+  end
 end

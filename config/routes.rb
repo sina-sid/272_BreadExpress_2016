@@ -38,7 +38,13 @@ BreadExpress::Application.routes.draw do
   get 'add-to-cart/:id' => 'orders#add_to_cart', as: :add_to_cart
   get 'remove-from-cart/:id' => 'orders#remove_from_cart', as: :remove_from_cart
   get 'checkout' => 'orders#new', as: :checkout
-  get 'remove_from_baking_list/:name' => 'home#remove_from_baking_list', as: :remove_from_baking_list
+
+
+
+  # patch 'shipped/:id' => 'order_items#mark_shipped', as: :shipped
+  # patch 'unshipped/:id' => 'order_items#mark_unshipped', as: :unshipped
+  patch 'mark_shipped_path/:id' => 'order_items#mark_shipped', as: :mark_shipped
+  patch 'mark_unshipped_path/:id' => 'order_items#mark_unshipped', as: :mark_unshipped
   # get 'new/:id' => 'item_prices#new', as: :new_item_price
   
   

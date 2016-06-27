@@ -14,13 +14,16 @@ class ItemPrice < ActiveRecord::Base
 
   # Validations
   validates_numericality_of :price, greater_than_or_equal_to: 0
-  validates_date :start_date
+  # validates_date :start_date
   validates_date :end_date, on_or_after: :start_date, allow_blank: true
-  validate :item_is_active_in_system
+  # validate :item_is_active_in_system
 
   # Callbacks
+  before_create :set_start_date_to_today
   before_create :set_end_date_of_old_price
   before_destroy :is_never_destroyable
+
+
 
   # Other methods
   private
@@ -31,6 +34,10 @@ class ItemPrice < ActiveRecord::Base
   def set_end_date_of_old_price
     previous = ItemPrice.current.for_item(self.item_id).take
     previous.update_attribute(:end_date, self.start_date) unless previous.nil?
+  end
+
+  def set_start_date_to_today
+    self.start_date = Date.today
   end
 
 end

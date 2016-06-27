@@ -37,6 +37,8 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
+      # create_item_price
+
       redirect_to @item, notice: "#{@item.name} was added to the system."
     else
       render action: 'new'
@@ -61,7 +63,15 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
+  def create_item_price
+    # @item_price = ItemPrice.new
+    # @item_price.item_id = @item.id
+    # # @item_price.price = params[:item][:price].to_i
+    # @item_price.start_date = Date.today
+    # @item_price.save!
+  end
+
   def item_params
-    params.require(:item).permit(:name, :description, :picture, :photo, :category, :units_per_item, :weight, :active)
+    params.require(:item).permit(:name, :description, :picture, :photo, :category, :units_per_item, :weight, :active, item_prices_attributes: [:price])
   end
 end

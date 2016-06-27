@@ -2,7 +2,7 @@
   <fieldset>
     <legend>Checkout</legend>
 
-    <%= f.input :address, collection: Address.where("customer_id = ?", current_user.customer.id).active, include_blank: true, input_html: {class: "avg"} %>
+    <%= f.input :address_id, collection: get_customer_addresses, include_blank: true, input_html: {class: "avg"} %>
     <%= f.input :credit_card_number, input_html: {class: "avg"} %>
     <%= f.input :expiration_year, input_html: {class: "avg"} %>
     <%= f.input :expiration_month, input_html: {class: "avg"} %>

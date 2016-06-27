@@ -47,12 +47,64 @@ class OrderItemsController < ApplicationController
     redirect_to addresss_url, notice: "#{order_item.item.name} was removed from this order."
   end
 
+  def mark_shipped
+    set_order_item
+    @order_item.shipped_on = Date.today
+    @order_item.save!
+    if @order_item.save!
+      flash[:notice] = 'Item was marked as shipped.'
+      redirect_to home_path
+    else
+      redirect_to home_path
+    end
+  end
+
+  def mark_unshipped
+    set_order_item
+    @order_item.shipped_on = nil
+    @order_item.save!
+    if @order_item.save!
+      flash[:notice] = 'Item was changed back to unshipped.'
+      redirect_to home_path
+    else
+      redirect_to home_path
+    end
+  end
+
+  def toggle
+
+  end
+
+  # ===================================
+  # Two new methods to handle changing shipped_on field
+  def shipped
+    @order_item.shipped_on = Date.today
+
+    if @order_item.save!
+      flash[:notice] = 'Item was marked as shipped.'
+      redirect_to home_path
+    else
+      redirect_to home_path
+    end
+  end
+
+  def unshipped
+    @order_item.shipped_on = nil
+
+    if @order_item.save!
+      flash[:notice] = 'Item was changed back to unshipped.'
+      redirect_to home_path
+    else
+      redirect_to home_path
+    end
+  end
+
   private
   def set_order_item
     @order_item = OrderItem.find(params[:id])
   end
 
   def order_item_params
-    params.require(:order_item).permit(:item_id, :price, :start_date, :end_date)
+    params.require(:order_item).permit(:item_id, :order_id, :item_id, :quantity, :shipped_on)
   end
 end

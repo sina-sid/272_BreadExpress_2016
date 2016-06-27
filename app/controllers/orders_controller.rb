@@ -8,10 +8,7 @@ class OrdersController < ApplicationController
   # CART METHODS
 
   def view_cart
-    @cart_order_items = get_list_of_items_in_cart
-    @shipping_costs = calculate_cart_shipping
-    @subtotal = calculate_cart_items_cost
-    @grand_total = @shipping_costs + @subtotal
+    get_cart_data
   end
 
   def add_to_cart
@@ -28,7 +25,7 @@ class OrdersController < ApplicationController
   def checkout
     if logged_in? && current_user.role?(:customer)
       save_each_item_in_cart(@order)
-      clear_cart
+      # clear_cart
     end
   end
 
@@ -55,15 +52,21 @@ class OrdersController < ApplicationController
 
   def new
     create_cart if logged_in? && current_user.role?(:customer)
+    get_cart_data
     @order = Order.new
-    view_cart
+    # view_cart
+
   end
 
   def create
     @order = Order.new(order_params)
-    create_cart if logged_in? && current_user.role?(:customer)
+    # create_cart if logged_in? && current_user.role?(:customer)
+    set_other_order_params
+    # set_credit_card
     if @order.save
-      checkout
+      @order.pay
+      save_each_item_in_cart(@order)
+      clear_cart
       redirect_to @order, notice: "Thank you for ordering from Bread Express."
     else
       render action: 'new'
@@ -90,7 +93,26 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
+  def set_other_order_params
+    @order.customer_id = current_user.customer.id
+    @order.date = Date.today
+    @order.grand_total = calculate_cart_shipping + calculate_cart_items_cost
+  end
+
+  # def set_credit_card
+
+  # end
+
+  def get_cart_data
+    @cart_order_items = get_list_of_items_in_cart
+    @shipping_costs = calculate_cart_shipping
+    @subtotal = calculate_cart_items_cost
+    @grand_total = @shipping_costs + @subtotal
+  end
+
   def order_params
-    params.require(:order).permit(:address_id)
+    params[:expiration_year] = params[:expiration_year].to_i
+    params[:expiration_month] = params[:expiration_month].to_i
+    params.require(:order).permit(:address_id, :credit_card_number, :expiration_year, :expiration_month)
   end
 end
