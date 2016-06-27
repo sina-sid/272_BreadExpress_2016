@@ -2,3 +2,10 @@
                                                          primary: "active_addresses", 
                                                          secondary: "inactive_addresses", 
                                                          sidebar: nil} %>
+
+<% if logged_in? && current_user.role?(:customer) %>
+  <%= link_to new_address_path, class: "button radius" do %>
+    <!-- <i class="fa fa-plus"></i> -->
+    &nbsp;Add a New Address
+  <% end %>
+<% end %>

@@ -5,6 +5,16 @@
 	  <span class="title"><h1 style="color:white;">
 	    <%= "Welcome back, #{current_user.customer.first_name}!"%></h1></span>
 	</div>
+	<div class="action">
+	  <%= link_to items_path, class: 'button radius' do %>
+      <!-- <i class="fa fa-list"></i> -->
+      &nbsp;Go Shopping!
+      <% end %>&nbsp;&nbsp;
+	  <%= link_to cart_path, class: 'button radius' do %>
+      <!-- <i class="fa fa-list"></i> -->
+      &nbsp;View Your Cart
+      <% end %>
+	</div>
   </div>
 
 
