@@ -1,7 +1,7 @@
 <% if items.empty? %>
   <p><em>There are no <%= state %> items at this time.</em></p>
 <% else %>
-<h2>Available Items</h2>
+<h2>Available Items</h2><center>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -15,7 +15,7 @@
   <tbody>
     <% items.each do |item| %>
       <tr>
-        <td><%= image_tag(item.photo_url, width: '200') %></td>
+        <td><%= link_to image_tag(item.photo_url, width: '200'), item_path(item) %></td>
         <td><%= link_to item.name, item_path(item) %></td>
         <td><%= number_to_currency item.current_price %></td>
         <td><%= item.units_per_item %> <%= item.category%></td>      
@@ -34,7 +34,7 @@
       </tr>
     <% end %>
   </tbody>
-</table>
+</table></center>
 <%= will_paginate items, previous_label: "Previous&nbsp;", next_label: "&nbsp;Next" %>  
 <% end %>
 <p>&nbsp;</p>

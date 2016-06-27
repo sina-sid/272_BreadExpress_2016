@@ -3,21 +3,23 @@ class HomeController < ApplicationController
 
   def home
   	if logged_in? && current_user.role?(:admin)
-  	  # total revenue
+      @total_revenue = calculate_total_revenue
+      @newest_items = Item.order(:created_at).limit(4)
+      @num_unpaid_orders = Order.where(payment_receipt: nil).count
+      @num_unshipped_items = OrderItem.unshipped.count
+      @num_unshipped_orders = Order.not_shipped.count
+      @num_active_customers = Customer.active.count
   	  # how many of each item is being ordered (popularity)
   	  # recently updated prices?
-  	  # num orders unpaid
-  	  # num items unshipped
-  	  # num active users
   	elsif logged_in? && current_user.role?(:baker)
   	  baking_lists
   	elsif logged_in? && current_user.role?(:shipper)
   	  baking_lists
   	  @unshipped_orders = Order.not_shipped.chronological.paginate(:page => params[:page]).per_page(5)
-  	else
-  	  create_cart
-  	  # recommendations/updated items?
-  	  # newly added items
+  	elsif logged_in? && current_user.role?(:customer)
+  	  @newest_items = Item.order(:created_at).limit(4)
+    else
+      @newest_items = Item.order(:created_at).limit(4)
   	end	
   end
 
@@ -31,6 +33,14 @@ class HomeController < ApplicationController
   end
 
   private
+  def calculate_total_revenue
+    total = 0
+    Order.paid.each do |order|
+      total+= order.grand_total
+    end
+    total
+  end
+
   def baking_lists
   	@bread_list = create_baking_list_for("bread")
   	@pastries_list = create_baking_list_for("pastries")

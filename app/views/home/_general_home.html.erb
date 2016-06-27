@@ -1,4 +1,4 @@
-<h2>Welcome To A &amp; M Bread Express</h2>
+<!-- <h2>Welcome To A &amp; M Bread Express</h2>
 <br />
 <div class="row">
 	<div class="small-7 columns">
@@ -18,11 +18,53 @@
 			<h3>Customers:</h3>
 			<p>
 				If you are a registered user, 
-			  <%= link_to "click here to login", login_path %>. If you want 
+			  <%# link_to "click here to login", login_path %>. If you want 
 			  to create an account with us, <%= link_to "please click to register", signup_path %>.
 			</p>
 		</div>
 	</div>
 </div>
+ -->
 
-
+<div class="row">
+  <div class="card">
+	<div class="image">
+	  <%= image_tag "title.jpg" %>
+	  <span class="title"><h1 style="color:white;">Welcome To A&amp;M Bread Express</h1></span>
+	</div>
+  </div>
+<br><br><br><br>
+ <div class="small-6 columns"><center>
+	<h3>Smallest, But Absolutely Best</h3>
+	<p>
+		Bread Express is the smallest, but absolutely best, online bakery 
+		we know of.  You should order lots of our products now.  They are
+		delicious, nutritious and amazing in every way.  Why are you still 
+		reading this?  You should be ordering bread right now.  Stop reading 
+		and start ordering.  (Still reading? What are you waiting for?)
+	</p></center>
+  </div>
+  <div class="small-6 columns"><center>
+    <h3>Customers:</h3>
+	<p>
+	  If you are a registered user, 
+	  <%= link_to "click here to login", login_path %>. If you want 
+	  to create an account with us, <%= link_to "please click to register", signup_path %>.
+	  In the meantime, go ahead and browse our menu!
+	</p></center>
+  </div>
+</div>
+<div class="row"><br>
+  <h2>Newest Additions</h2><br>
+  <% @newest_items.each do |item| %>
+  <div class="small-3 columns">
+    <div class="card">
+	  <div class="image">
+		<%= link_to image_tag(item.photo), item_path(item) %></div>
+	  <div class="content">
+	    <%= item.name %>
+	  </div>
+	</div>
+  </div>
+  <% end %>
+</div>

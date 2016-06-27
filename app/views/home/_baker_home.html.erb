@@ -1,0 +1,68 @@
+<div class="row">
+  <% if @bread_list.empty? && @pastries_list.empty? && @muffins_list.empty? %>
+    <h4>No items need to be prepared at this time.</h4>
+  <% else %>
+	  <h1>The Baking List</h1>
+	  <p>Here are the list of items that need to be prepared:</p>
+	  <br>
+	  <% unless @bread_list.empty? %>
+		  <h3>Bread</h3>
+		  <table class="table table-striped">
+		    <thead>
+		      <tr>
+		        <th width>Item Name</th>
+		        <th width>Quantity</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <% @bread_list.each do |name, quant| %>
+		        <tr>
+		          <td><%= name %></td>
+		          <td><%= quant %></td>
+		        </tr>
+		      <% end %>
+		    </tbody>
+		  </table>
+	  <% end %>
+
+	  <% unless @pastries_list.empty? %>
+		  <h3>Pastries</h3>
+		  <table class="table table-striped">
+		    <thead>
+		      <tr>
+		        <th width>Item Name</th>
+		        <th width>Quantity</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <% @pastries_list.each do |name, quant| %>
+		        <tr>
+		          <td><%= name %></td>
+		          <td><%= quant %></td>
+		        </tr>
+		      <% end %>
+		    </tbody>
+		  </table>
+	  <% end %>
+
+	  <% unless @muffins_list.empty? %>
+		  <h3>Muffins</h3>
+		  <table class="table table-striped">
+		    <thead>
+		      <tr>
+		        <th width>Item Name</th>
+		        <th width>Quantity</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <% @muffins_list.each do |name, quant| %>
+		        <tr>
+		          <td><%= name %></td>
+		          <td><%= quant %></td>
+		        </tr>
+		      <% end %>
+		    </tbody>
+		  </table>
+	  <% end %>
+  <% end %>
+</div>
