@@ -7,7 +7,7 @@ class ItemsController < ApplicationController
   # carrierwave to upload photos
   
   def index
-    @active_items = Item.active.alphabetical.paginate(:page => params[:page]).per_page(10)
+    @active_items = Item.active.alphabetical.paginate(:page => params[:page]).per_page(9)
     @active_bread = Item.active.alphabetical.for_category("bread").paginate(:page => params[:page]).per_page(6)
     @active_pastries = Item.active.alphabetical.for_category("pastries").paginate(:page => params[:page]).per_page(6)
     @active_muffins = Item.active.alphabetical.for_category("muffins").paginate(:page => params[:page]).per_page(6)

@@ -1,6 +1,9 @@
-
+<div class="panel clearfix">
+  <h5><b>Ship to:</h5></b>
+  <%= address.recipient %><br />
   <%= address.street_1 %><br />
   <% unless address.street_2.blank? %>
     <%= address.street_2 %><br />
   <% end %>
   <%= address.city %>, <%= address.state %> <%= address.zip %>
+</div>

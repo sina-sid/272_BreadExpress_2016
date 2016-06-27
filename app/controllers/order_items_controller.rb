@@ -71,34 +71,6 @@ class OrderItemsController < ApplicationController
     end
   end
 
-  def toggle
-
-  end
-
-  # ===================================
-  # Two new methods to handle changing shipped_on field
-  def shipped
-    @order_item.shipped_on = Date.today
-
-    if @order_item.save!
-      flash[:notice] = 'Item was marked as shipped.'
-      redirect_to home_path
-    else
-      redirect_to home_path
-    end
-  end
-
-  def unshipped
-    @order_item.shipped_on = nil
-
-    if @order_item.save!
-      flash[:notice] = 'Item was changed back to unshipped.'
-      redirect_to home_path
-    else
-      redirect_to home_path
-    end
-  end
-
   private
   def set_order_item
     @order_item = OrderItem.find(params[:id])

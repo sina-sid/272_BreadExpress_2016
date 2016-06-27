@@ -8,8 +8,14 @@
 	  <p>Here are the list of items that need to be shipped:</p>
 	  <br>
 	  <% @unshipped_orders.each do |order| %>
-	    <%= render partial: "partials/order_item_list", locals: {order_items: order.order_items} %>
-	    <%= render partial: "partials/address_info", locals: {address: order.address} %>
+
+	    <div id="order_item_list">
+	    <div class="small-7 columns">
+	      <%= render partial: "partials/order_item_list", locals: {order_items: order.order_items} %>
+	    </div></div>
+	    <div class="small-5 columns">
+	    <%= render partial: "partials/address_info", locals: {order: order, address: order.address} %>
+	    </div><br>
 	  <% end %>
   <% end %>
 </div>
