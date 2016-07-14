@@ -1,7 +1,15 @@
 <% if items.empty? %>
   <p><em>There are no <%= state %> items at this time.</em></p>
 <% else %>
-<h2>Available Items</h2>
+  <div class="card">
+    <div class="image">
+      <%= link_to image_tag("items-banner.jpg"), items_path %>
+      <span class="title"><h3 style="color:white;">
+        <b><%= "Our Freshly Baked Items" %></b></h3>
+        <h5 style="color:white;"><%= "We offer a variety of breads, pastries and muffins." %></h5>
+        <h5 style="color:white;"><b><%= link_to "Register now", new_customer_path %></b> to order.</h5></span>
+    </div>
+  </div><br>
   <% items.each do |item| %>
   <div class="small-4 columns">
     <div class="card">

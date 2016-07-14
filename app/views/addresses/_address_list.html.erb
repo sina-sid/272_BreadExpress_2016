@@ -22,7 +22,7 @@
         <% end %>
         <td><%= address.recipient %></td>
         <td>
-          <%= render :partial => "partials/address_info", locals: {address: address} %>
+          <%= render :partial => "address_info", locals: {address: address} %>
         </td>
         <td><%= address.is_billing ? "Yes" : "No" %></td>      
         <td>

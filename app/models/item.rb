@@ -50,7 +50,10 @@ class Item < ActiveRecord::Base
 
   private
   def is_destroyable?
+    # @destroyable = self.order_items.shipped.empty?
+
     @destroyable = self.order_items.shipped.empty?
+
   end
   
   def convert_to_inactive

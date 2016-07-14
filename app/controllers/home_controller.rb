@@ -18,9 +18,9 @@ class HomeController < ApplicationController
   	  # baking_lists
   	  @unshipped_orders = Order.not_shipped.paginate(:page => params[:page]).per_page(10)
   	elsif logged_in? && current_user.role?(:customer)
-  	  @newest_items = Item.order(:created_at).limit(4)
+  	  @newest_items = Item.order(created_at: :desc).limit(4)
     else
-      @newest_items = Item.order(:created_at).limit(4)
+      @newest_items = Item.order(created_at: :desc).limit(4)
   	end	
   end
 

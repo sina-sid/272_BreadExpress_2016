@@ -50,24 +50,24 @@ class OrderItemsController < ApplicationController
   def mark_shipped
     set_order_item
     @order_item.shipped_on = Date.today
-    @order_item.save!
     if @order_item.save!
+      @order_items = @order_item.order.order_items
       flash[:notice] = 'Item was marked as shipped.'
-      redirect_to home_path
+      # redirect_to ship_home_path
     else
-      redirect_to home_path
+      # redirect_to ship_home_path
     end
   end
 
   def mark_unshipped
     set_order_item
     @order_item.shipped_on = nil
-    @order_item.save!
     if @order_item.save!
+      @order_items = @order_item.order.order_items
       flash[:notice] = 'Item was changed back to unshipped.'
-      redirect_to home_path
+      # redirect_to ship_home_path
     else
-      redirect_to home_path
+      # redirect_to ship_home_path
     end
   end
 

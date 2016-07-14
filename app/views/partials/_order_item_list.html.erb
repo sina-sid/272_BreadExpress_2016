@@ -17,7 +17,7 @@
         <td><%= link_to oi.item.name, item_path(oi.item) %></td>
         <td align="center"><%= number_to_currency oi.item.price_on_date(oi.order.date) %></td>
         <td align="right"><%= number_to_currency oi.subtotal(oi.order.date) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <% if controller.controller_name == 'home' %>
+        <% if controller.controller_name == 'home' || controller.controller_name == 'order_items' %>
           <td>
             <% if oi.shipped_on.nil? %>
               <%= link_to(image_tag('check_black.gif'), mark_shipped_path(oi.id), method: 'patch', remote: true) %>

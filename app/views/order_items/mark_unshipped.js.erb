@@ -1,1 +1,1 @@
-$('#order_item_list').replaceWith('<%= j render("partials/order_item_list") %>');
+$('#order_item_list').replaceWith('<%= j render(partial: "partials/order_item_list", locals: {order_items: @order_items}) %>');

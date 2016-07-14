@@ -18,12 +18,13 @@ BreadExpress::Application.routes.draw do
   
   # Authentication routes
   get 'user/edit' => 'users#edit', as: :edit_current_user
-  get 'signup' => 'users#new', as: :signup
+  get 'signup' => 'customers#new', as: :signup
   get 'logout' => 'sessions#destroy', as: :logout
   get 'login' => 'sessions#new', as: :login
 
   # Semi-static page routes
   get 'home' => 'home#home', as: :home
+  patch 'ship_home' => 'home#home', as: :ship_home
   get 'about' => 'home#about', as: :about
   get 'contact' => 'home#contact', as: :contact
   get 'privacy' => 'home#privacy', as: :privacy
@@ -43,8 +44,8 @@ BreadExpress::Application.routes.draw do
 
   # patch 'shipped/:id' => 'order_items#mark_shipped', as: :shipped
   # patch 'unshipped/:id' => 'order_items#mark_unshipped', as: :unshipped
-  patch 'mark_shipped_path/:id' => 'order_items#mark_shipped', as: :mark_shipped
-  patch 'mark_unshipped_path/:id' => 'order_items#mark_unshipped', as: :mark_unshipped
+  patch 'mark_shipped/:id' => 'order_items#mark_shipped', as: :mark_shipped
+  patch 'mark_unshipped/:id' => 'order_items#mark_unshipped', as: :mark_unshipped
   # get 'new/:id' => 'item_prices#new', as: :new_item_price
   
   
