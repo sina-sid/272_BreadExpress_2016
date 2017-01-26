@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 # require 'puma/capistrano'
 
-server 'sinasiddiqi.com', :web, :app, :db, primary: true
+server '162.243.173.170', :web, :app, :db, primary: true
 
 set :application, 'breadexpressapp'
 set :user, 'deploy'
