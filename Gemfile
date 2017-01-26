@@ -29,6 +29,7 @@ gem 'validates_timeliness', '3.0.14'
 gem 'carrierwave', '0.10.0'
 gem 'time_date_helpers', '0.0.2'
 gem 'foundation-rails'
+gem 'chart-js-rails'
 
 # Additional gems that are very useful in Rails development
 group :development do

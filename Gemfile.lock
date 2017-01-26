@@ -51,6 +51,8 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
+    chart-js-rails (0.1.1)
+      railties (> 3.1)
     chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -218,6 +220,7 @@ DEPENDENCIES
   cancancan (= 1.9.2)
   capybara
   carrierwave (= 0.10.0)
+  chart-js-rails
   chronic (= 0.10.2)
   coffee-rails (= 4.0.1)
   cucumber-rails

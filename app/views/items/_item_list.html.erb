@@ -6,34 +6,38 @@
       <%= link_to image_tag("items-banner.jpg"), items_path %>
       <span class="title"><h3 style="color:white;">
         <b><%= "Our Freshly Baked Items" %></b></h3>
-        <h5 style="color:white;"><%= "We offer a variety of breads, pastries and muffins." %></h5>
-        <h5 style="color:white;"><b><%= link_to "Register now", new_customer_path %></b> to order.</h5></span>
+        <h5 style="color:white;"><%= "Members can choose from a variety of breads, pastries and muffins." %></h5>
+      <% if !logged_in? %> 
+        <h5 style="color:white;"><b><%= link_to "Register Now", new_customer_path %></b></h5></span>
+      <% end %>
     </div>
   </div><br>
   <% items.each do |item| %>
   <div class="small-4 columns">
-    <div class="card">
+    <div class="item-card">
     <div class="image">
     <%= link_to image_tag(item.photo), item_path(item) %></div>
     <div class="content">
       <%= item.name %>&nbsp;&nbsp;
       <b><%= number_to_currency item.current_price %></b><br><br>
-      <%= item.units_per_item %> <%= item.category == 'bread' ? 'loaf' : item.category %></div>
-    <div class="action"><center>
+      Includes: <b><%= item.units_per_item %> <%= item.category == 'bread' ? 'loaf' : item.category %></b></div>
       <% if logged_in? && current_user.role?(:admin) %>
-        <%= link_to(edit_item_path(item), class: 'button radius warning') do %>
-          &nbsp;Edit&nbsp;
-        <% end %>
-        <%= link_to(new_item_price_path, class: 'button radius warning') do %>
-          &nbsp;Edit Price&nbsp;
-        <% end %>
+        <div class="action"><center>
+          <%= link_to(edit_item_path(item), class: 'button radius warning') do %>
+            &nbsp;Edit&nbsp;
+          <% end %>
+          <%= link_to(new_item_price_path, class: 'button radius warning') do %>
+            &nbsp;Edit Price&nbsp;
+          <% end %>
+        </center></div>
       <% elsif logged_in? && current_user.role?(:customer) %>
-        <%= link_to(add_to_cart_path(item.id), method: 'get', class: 'button radius alert') do %>
-          <!-- <i class="fa fa-trash-o"></i> -->
-          &nbsp;<%= "Add to Cart" %>
+        <div class="action"><center>
+          <%= link_to(add_to_cart_path(item.id), method: 'get', class: 'button radius alert') do %>
+            <!-- <i class="fa fa-trash-o"></i> -->
+            &nbsp;<%= "Add to Cart" %>
         <% end %>
+        </center></div>
       <% end %>
-    </center></div>
     </div><br><br>
   </div>
   <% end %><br>
