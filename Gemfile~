@@ -6,6 +6,7 @@ gem 'sass-rails', '4.0.2'
 gem 'uglifier', '2.5.0'
 gem 'coffee-rails', '4.0.1'
 gem 'jquery-rails', '3.1.0'
+gem 'pg'
 # gem 'turbolinks', '2.2.1'
 gem 'jbuilder', '1.5.3'
 group :doc do
@@ -41,7 +42,7 @@ group :development do
   gem 'hirb', '0.7.2'
   gem 'faker', '1.4.3'
   gem 'capistrano', '2.15.5' 
-  gem 'sqlite3'
+  #gem 'sqlite3'
 end
 
 # Gems used only in testing
@@ -57,10 +58,10 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
-  gem 'sqlite3'
+  #gem 'sqlite3'
 end
 
 group :production do
-  gem 'pg'
+  
 end
 
